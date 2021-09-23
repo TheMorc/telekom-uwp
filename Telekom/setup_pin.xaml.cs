@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,12 +24,25 @@ namespace Telekom
     /// </summary>
     public sealed partial class setup_pin : Page
     {
-        internal Frame rootFrame;
 
         public setup_pin()
         {
             this.InitializeComponent();
-            rootFrame = new Frame();
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += goBack;
+
+
+        }
+
+        private void goBack(object sender, BackRequestedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+                e.Handled = true;
+            }
+
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -50,8 +64,7 @@ namespace Telekom
             {
                 Debug.WriteLine("[tlkm_setup_pin] pin sent successfully");
 
-                rootFrame.Navigate(typeof(setup_verif));
-                Window.Current.Content = rootFrame;
+                Frame.Navigate(typeof(setup_verif));
             }
             else
                 await App.TLKM.showError();

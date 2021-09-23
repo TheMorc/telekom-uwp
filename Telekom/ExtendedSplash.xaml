@@ -16,9 +16,11 @@
         <Image x:Name="extendedSplashImage" Source="Assets/SplashScreen.png"/>
     </Canvas>
     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-        <ProgressRing IsActive="True" Width="32" Height="32" Margin="0,0,0,32" Foreground="White"/>
+        <ProgressRing IsActive="True" Width="32" Height="32" Margin="0,0,0,32" Foreground="White" Name="progRing"/>
         <TextBlock TextWrapping="Wrap" TextAlignment="Center" Padding="5" HorizontalAlignment="Center" FontSize="15" Name="loadingLabel">
        Načítavam...
         </TextBlock>
     </StackPanel>
+
+
 </Grid>

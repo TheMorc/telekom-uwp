@@ -23,12 +23,10 @@ namespace Telekom
     /// </summary>
     public sealed partial class dashboard : Page
     {
-        internal Frame rootFrame;
 
         public dashboard()
         {
             this.InitializeComponent();
-            rootFrame = new Frame();
             simName.Text = App.TLKM.productLabel + " - " + App.TLKM.productName;
             simData.Text = App.TLKM.remainingGB + "/" + App.TLKM.maxGB + "GB";
         }

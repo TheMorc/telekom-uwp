@@ -3,13 +3,16 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Telekom
@@ -52,17 +55,53 @@ namespace Telekom
             Telekom();
         }
 
+        async void statusText(string text)
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                loadingLabel.Visibility = Visibility.Collapsed;
+                progRing.Visibility = Visibility.Collapsed;
+
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                statusBar.ForegroundColor = Windows.UI.Color.FromArgb(255, 255, 255, 255);
+                statusBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 226, 0, 116);
+                statusBar.BackgroundOpacity = 1.0;
+
+                StatusBarProgressIndicator indicator = statusBar.ProgressIndicator;
+
+                indicator.ProgressValue = null;
+                indicator.Text = text;
+                await indicator.ShowAsync();
+            }
+            else
+            {
+                loadingLabel.Text = text;
+            }
+        }
+
+        async void hideStatusText()
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                statusBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 0, 0, 0);
+                StatusBarProgressIndicator indicator = statusBar.ProgressIndicator;
+                await indicator.HideAsync();
+            }
+        }
+
         async void Telekom()
         {
+            statusText("Načítavam...");
 
-            Debug.WriteLine("[tlkm_extendedsplash] 2s wait"); //vypadá to tak že bez neho to nepresmeruje na page
-            //await System.Threading.Tasks.Task.Delay(2000);
+            Debug.WriteLine("[tlkm_extendedsplash] ´500ms wait"); //vypadá to tak že bez neho to nepresmeruje na page
+            await System.Threading.Tasks.Task.Delay(500);
 
             Debug.WriteLine("[tlkm_extendedsplash] deviceId: " + App.TLKM.deviceId.ToString());
 
             if (App.TLKM.localSettings.Values["hasAccount"] as string == "yes")
             {
-                loadingLabel.Text = "Prihlasovanie...";
+                statusText("Prihlasujem...");
 
                 Debug.WriteLine("[tlkm_extendedsplash] settings - hasAccount - retrieving information");
 
@@ -81,7 +120,7 @@ namespace Telekom
                 if (success)
                 {
                     Debug.WriteLine("[tlkm_extendedsplash] logged in successfully!");
-                    loadingLabel.Text = "Úspešne prihlásené...";
+                    statusText("Prihlásenie úspešné...");
                     bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.dashboard());
                     if (!dash_success)
                     {
@@ -89,6 +128,7 @@ namespace Telekom
                     }
                     else
                     {
+                        hideStatusText();
                         rootFrame.Navigate(typeof(dashboard));
                         Window.Current.Content = rootFrame;
                     }
@@ -97,7 +137,7 @@ namespace Telekom
                 {
                     if (App.TLKM.lastCode == "hal.security.authentication.access_token.invalid")
                     {
-                        loadingLabel.Text = "Generovanie nového tokenu...";
+                        statusText("Generujem nový token...");
                         bool regen_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.regen_token());
                         if (regen_success)
                             Debug.WriteLine("[tlkm_extendedsplash] token regenerated successfully!");
@@ -108,7 +148,7 @@ namespace Telekom
                         if (sec_login_success)
                         {
                             Debug.WriteLine("[tlkm_extendedsplash] login attempt 2 - logged in successfully!");
-                            loadingLabel.Text = "Úspešne prihlásené...";
+                            statusText("Prihlásenie úspešné...");
                             bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.dashboard());
                             if (!dash_success)
                             {
@@ -116,6 +156,7 @@ namespace Telekom
                             }
                             else
                             {
+                                hideStatusText();
                                 rootFrame.Navigate(typeof(dashboard));
                                 Window.Current.Content = rootFrame;
                             }
@@ -135,6 +176,7 @@ namespace Telekom
             {
                 Debug.WriteLine("[tlkm_extendedsplash] settings - no account - proceeding to setup");
 
+                hideStatusText();
                 rootFrame.Navigate(typeof(setup_pin));
                 Window.Current.Content = rootFrame;
             }

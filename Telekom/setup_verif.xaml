@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DesignWidth="1080" d:DesignHeight="1920">
+
     <Grid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <TextBlock Text="Zadajte prihlasovací kód.
@@ -16,4 +17,11 @@
             <Button Content="Overiť" Click="Button_Click"/>
         </StackPanel>
     </Grid>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <EdgeUIThemeTransition Edge="Left">
+            </EdgeUIThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
 </Page>

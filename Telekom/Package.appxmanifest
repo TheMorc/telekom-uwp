@@ -9,7 +9,7 @@
   <Identity
     Name="91a23db2-2574-4cfa-8da3-7249ac5f954a"
     Publisher="CN=Morc"
-    Version="1.0.6.0" />
+    Version="1.0.21.0" />
 
   <mp:PhoneIdentity PhoneProductId="91a23db2-2574-4cfa-8da3-7249ac5f954a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -46,6 +46,7 @@
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="portrait"/>
           <uap:Rotation Preference="portraitFlipped"/></uap:InitialRotationPreference>
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badgeAndTileText"/>
       </uap:VisualElements>
     </Application>
   </Applications>

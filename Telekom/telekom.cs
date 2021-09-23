@@ -66,12 +66,8 @@ namespace Telekom
                 remainingGB = json.consumption.remaining.value;
                 Debug.WriteLine("[tlkm_main - dashboard] " + productName + " - max: " + maxGB + "GB remaining: " + remainingGB + "GB");
 
-
-
                 return true;
             }
-
-            return false;
         }
 
         public async Task<Boolean> regen_token()
@@ -109,8 +105,6 @@ namespace Telekom
 
                 return true;
             }
-
-            return false;
         }
 
         public async Task<Boolean> login()
@@ -165,8 +159,6 @@ namespace Telekom
 
                 return true;
             }
-
-            return false;
         }
 
         public async Task<Boolean> pin(long parsedNumber)
@@ -199,8 +191,6 @@ namespace Telekom
 
                 return true;
             }
-
-            return false;
         }
 
         public async Task<Boolean> verif(long PIN)
@@ -249,8 +239,6 @@ namespace Telekom
 
                 return true;
             }
-
-            return false;
         }
     }
 }

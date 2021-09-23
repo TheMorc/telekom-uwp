@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,12 +24,25 @@ namespace Telekom
     /// </summary>
     public sealed partial class setup_verif : Page
     {
-
         private telekom TLKM = new telekom();
 
         public setup_verif()
         {
             this.InitializeComponent();
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += goBack;
+
+        }
+
+        private void goBack(object sender, BackRequestedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+                e.Handled = true;
+            }
+
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -38,9 +52,26 @@ namespace Telekom
             if (success)
             {
                 Debug.WriteLine("[tlkm_setup_verif] pin verified successfully");
+                bool login_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.login());
+                if (login_success)
+                {
+                    Debug.WriteLine("[tlkm_setup_verif] logged in successfully!");
+                    bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.dashboard());
+                    if (!dash_success)
+                    {
+                        await App.TLKM.showError();
+                    }
+                    else
+                    {
+                        Frame.Navigate(typeof(dashboard));
+                    }
+                }
+                else
+                    await App.TLKM.showError();
             }
             else
                 await App.TLKM.showError();
         }
+
     }
 }
