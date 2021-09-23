@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Telekom.setup_verif"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Telekom"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:DesignWidth="1080" d:DesignHeight="1920">
+    <Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <TextBlock Text="Zadajte prihlasovací kód.
+                       Na telefónne číslo sme poslali prihlasovací kód" />
+            <TextBox TextWrapping="Wrap" PlaceholderText="Prihlasovací kód" InputScope="NumericPin" Name="serviceId"/>
+            <Button Content="Overiť" Click="Button_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

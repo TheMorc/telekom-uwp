@@ -9,7 +9,7 @@
   <Identity
     Name="91a23db2-2574-4cfa-8da3-7249ac5f954a"
     Publisher="CN=Morc"
-    Version="1.0.0.0" />
+    Version="1.0.6.0" />
 
   <mp:PhoneIdentity PhoneProductId="91a23db2-2574-4cfa-8da3-7249ac5f954a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -37,8 +37,15 @@
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="Telekom"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="Telekom">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo"/>
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile >
+        <uap:SplashScreen Image="Assets\SplashScreen.png"  BackgroundColor="#E20074"/>
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="portrait"/>
+          <uap:Rotation Preference="portraitFlipped"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
