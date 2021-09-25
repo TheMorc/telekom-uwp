@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
@@ -19,19 +20,22 @@ namespace Telekom
 {
     partial class ExtendedSplash
     {
-        internal Rect splashImageRect; // Rect to store splash screen image coordinates.
-        internal bool dismissed = false; // Variable to track splash screen dismissal status.
+        internal Rect splashImageRect;
+        internal bool dismissed = false;
         internal Frame rootFrame;
-
-        private SplashScreen splash; // Variable to hold the splash screen object.
-        private double ScaleFactor; //Variable to hold the device scale factor (use to determine phone screen resolution)
+        internal ResourceLoader resourceLoader = null;
+        internal SplashScreen splash;
+        internal double ScaleFactor;
 
         public ExtendedSplash(SplashScreen splashscreen, bool loadState)
         {
+            if (loadState)
+            {
+                Debug.WriteLine("[tlkm_extendedsplash] loadState true");
+            }
+
             InitializeComponent();
 
-            // Listen for window resize events to reposition the extended splash screen image accordingly.
-            // This is important to ensure that the extended splash screen is formatted properly in response to snapping, unsnapping, rotation, etc...
             Window.Current.SizeChanged += new WindowSizeChangedEventHandler(ExtendedSplash_OnResize);
 
             ScaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
@@ -48,14 +52,15 @@ namespace Telekom
                 PositionImage();
             }
 
+            resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView(); //load translated strings
+
             // Create a Frame to act as the navigation context
             rootFrame = new Frame();
 
-            // Restore the saved session state if necessary
             Telekom();
         }
 
-        async void statusText(string text)
+        async void StatusText(string text)
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
@@ -79,7 +84,7 @@ namespace Telekom
             }
         }
 
-        async void hideStatusText()
+        async void HideStatusText()
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
@@ -90,18 +95,18 @@ namespace Telekom
             }
         }
 
-        async void Telekom()
+        private async void Telekom()
         {
-            statusText("Načítavam...");
+            StatusText(resourceLoader.GetString("Loading"));
 
-            Debug.WriteLine("[tlkm_extendedsplash] ´500ms wait"); //vypadá to tak že bez neho to nepresmeruje na page
+            Debug.WriteLine("[tlkm_extendedsplash] 500ms wait"); //seems like that something has issues getting loaded as soon as the page is loaded
             await System.Threading.Tasks.Task.Delay(500);
 
             Debug.WriteLine("[tlkm_extendedsplash] deviceId: " + App.TLKM.deviceId.ToString());
 
             if (App.TLKM.localSettings.Values["hasAccount"] as string == "yes")
             {
-                statusText("Prihlasujem...");
+                StatusText(resourceLoader.GetString("Logging_in"));
 
                 Debug.WriteLine("[tlkm_extendedsplash] settings - hasAccount - retrieving information");
 
@@ -116,67 +121,59 @@ namespace Telekom
                 App.TLKM.serviceId = (long)App.TLKM.localSettings.Values["serviceId"];
                 Debug.WriteLine("[tlkm_extendedsplash] settings - serviceId: " + App.TLKM.serviceId);
 
-                bool success = await System.Threading.Tasks.Task.Run(() => App.TLKM.login());
+                bool dash_success = false;
+
+                bool success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Login());
                 if (success)
                 {
                     Debug.WriteLine("[tlkm_extendedsplash] logged in successfully!");
-                    statusText("Prihlásenie úspešné...");
-                    bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.dashboard());
-                    if (!dash_success)
-                    {
-                        await App.TLKM.showError();
-                    }
-                    else
-                    {
-                        hideStatusText();
-                        rootFrame.Navigate(typeof(dashboard));
-                        Window.Current.Content = rootFrame;
-                    }
+                    StatusText(resourceLoader.GetString("Login_success"));
+                    dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
                 }
                 else
                 {
                     if (App.TLKM.lastCode == "hal.security.authentication.access_token.invalid")
                     {
-                        statusText("Generujem nový token...");
-                        bool regen_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.regen_token());
+                        StatusText(resourceLoader.GetString("Generating_new_token"));
+                        bool regen_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Regen_token());
                         if (regen_success)
                             Debug.WriteLine("[tlkm_extendedsplash] token regenerated successfully!");
                         else
-                            await App.TLKM.showError();
+                            await App.TLKM.ShowError();
 
-                        bool sec_login_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.login());
-                        if (sec_login_success)
+                        success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Login());
+                        if (success)
                         {
                             Debug.WriteLine("[tlkm_extendedsplash] login attempt 2 - logged in successfully!");
-                            statusText("Prihlásenie úspešné...");
-                            bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.dashboard());
-                            if (!dash_success)
-                            {
-                                await App.TLKM.showError();
-                            }
-                            else
-                            {
-                                hideStatusText();
-                                rootFrame.Navigate(typeof(dashboard));
-                                Window.Current.Content = rootFrame;
-                            }
+                            StatusText(resourceLoader.GetString("Login_success"));
+                            dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
                         }
                         else
-                            await App.TLKM.showError();
+                            await App.TLKM.ShowError();
                     }
                     else
                     {
-                        await App.TLKM.showError();
+                        await App.TLKM.ShowError();
                     }
                 }
 
+                if (!dash_success)
+                {
+                    await App.TLKM.ShowError();
+                }
+                else
+                {
+                    HideStatusText();
+                    rootFrame.Navigate(typeof(AppShell));
+                    Window.Current.Content = rootFrame;
+                }
 
             }
             else
             {
                 Debug.WriteLine("[tlkm_extendedsplash] settings - no account - proceeding to setup");
 
-                hideStatusText();
+                HideStatusText();
                 rootFrame.Navigate(typeof(setup_pin));
                 Window.Current.Content = rootFrame;
             }

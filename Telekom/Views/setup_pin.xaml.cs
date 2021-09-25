@@ -30,12 +30,11 @@ namespace Telekom
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
-            SystemNavigationManager.GetForCurrentView().BackRequested += goBack;
-
+            SystemNavigationManager.GetForCurrentView().BackRequested += GoBack;
 
         }
 
-        private void goBack(object sender, BackRequestedEventArgs e)
+        private void GoBack(object sender, BackRequestedEventArgs e)
         {
             if (Frame.CanGoBack)
             {
@@ -59,7 +58,7 @@ namespace Telekom
 
             Debug.WriteLine("[tlkm_setup_pin] parsed number " + parsedNumber);
 
-            Boolean success = await System.Threading.Tasks.Task.Run(() => App.TLKM.pin(parsedNumber));
+            Boolean success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Pin(parsedNumber));
             if (success)
             {
                 Debug.WriteLine("[tlkm_setup_pin] pin sent successfully");
@@ -67,7 +66,7 @@ namespace Telekom
                 Frame.Navigate(typeof(setup_verif));
             }
             else
-                await App.TLKM.showError();
+                await App.TLKM.ShowError();
 
         }
     }

@@ -13,7 +13,7 @@ using Windows.UI.Popups;
 
 namespace Telekom
 {
-    public class telekom
+    public class Telekom
     {
         public ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public Guid deviceId = Windows.Storage.Streams.DataReader.FromBuffer(Windows.System.Profile.SystemIdentification.GetSystemIdForPublisher().Id).ReadGuid();
@@ -28,9 +28,9 @@ namespace Telekom
         public long serviceId = 0;
         public string lastError = "";
         public string lastCode = "";
-        private static HttpClient httpClient = new HttpClient();
+        internal static HttpClient httpClient = new HttpClient();
 
-        public async Task showError()
+        public async Task ShowError()
         {
             var messageDialog = new MessageDialog(App.TLKM.lastError + "\n" + App.TLKM.lastCode);
             messageDialog.Commands.Add(new UICommand("OK"));
@@ -40,7 +40,7 @@ namespace Telekom
             await messageDialog.ShowAsync();
         }
 
-        public async Task<Boolean> dashboard()
+        public async Task<bool> Dashboard()
         {
             using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/dashboard/product/" + productId + "?enableFreeUnit=true&priority=primary&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&showTotalCreditBalance=true&showUnlimited=true"))
             {
@@ -70,7 +70,7 @@ namespace Telekom
             }
         }
 
-        public async Task<Boolean> regen_token()
+        public async Task<bool> Regen_token()
         {
 
             using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://t-app.telekom.sk/token/"))
@@ -107,7 +107,7 @@ namespace Telekom
             }
         }
 
-        public async Task<Boolean> login()
+        public async Task<bool> Login()
         {
             //this function is not invoked until the variables are not populated
             //this should not happen in any other order.
@@ -161,7 +161,7 @@ namespace Telekom
             }
         }
 
-        public async Task<Boolean> pin(long parsedNumber)
+        public Task<bool> Pin(long parsedNumber)
         {
             Debug.WriteLine("[tlkm_main] PIN for " + parsedNumber);
 
@@ -183,17 +183,17 @@ namespace Telekom
                     Debug.WriteLine(errorMessage);
                     lastCode = json.code;
                     lastError = json.message;
-                    return false;
+                    return Task.FromResult(false);
                 }
                 string jsonNonce = json.nonce;
                 nonce = jsonNonce;
                 serviceId = parsedNumber;
 
-                return true;
+                return Task.FromResult(true);
             }
         }
 
-        public async Task<Boolean> verif(long PIN)
+        public async Task<bool> Verif(long PIN)
         {
             Debug.WriteLine("[tlkm_main] PIN verif input " + PIN);
 

@@ -4,9 +4,10 @@
     xmlns:local="using:Telekom"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:DesignWidth="1080" d:DesignHeight="1920">
+    d:DesignWidth="540" d:DesignHeight="960">
     <Grid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="x" Name="simName"/>

@@ -7,14 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:DesignWidth="1080" d:DesignHeight="1920">
+    d:DesignWidth="540" d:DesignHeight="960">
 
     <Grid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <TextBlock Text="Zadajte prihlasovací kód.
-                       Na telefónne číslo sme poslali prihlasovací kód" />
-            <TextBox TextWrapping="Wrap" PlaceholderText="Prihlasovací kód" InputScope="NumericPin" Name="serviceId"/>
-            <Button Content="Overiť" Click="Button_Click"/>
+            <TextBlock Text="Zadajte prihlasovací kód ktorý sme vám poslali na telefónne číslo." x:Uid="setup_verif_block"/>
+            <TextBox TextWrapping="Wrap" PlaceholderText="Prihlasovací kód" InputScope="NumericPin" Name="serviceId" x:Uid="setup_verif_box"/>
+            <Button Content="Overiť" Click="Button_Click" x:Uid="setup_verif_button"/>
         </StackPanel>
     </Grid>
 
