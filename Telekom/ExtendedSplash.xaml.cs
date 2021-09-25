@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics.Display;
-using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 namespace Telekom
 {
@@ -23,9 +16,9 @@ namespace Telekom
         internal Rect splashImageRect;
         internal bool dismissed = false;
         internal Frame rootFrame;
-        internal ResourceLoader resourceLoader = null;
         internal SplashScreen splash;
         internal double ScaleFactor;
+        internal Windows.UI.Color? bgStatusBar, fgStatusBar;
 
         public ExtendedSplash(SplashScreen splashscreen, bool loadState)
         {
@@ -51,8 +44,7 @@ namespace Telekom
                 splashImageRect = splash.ImageLocation;
                 PositionImage();
             }
-
-            resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView(); //load translated strings
+            
 
             // Create a Frame to act as the navigation context
             rootFrame = new Frame();
@@ -89,7 +81,9 @@ namespace Telekom
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
-                statusBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 0, 0, 0);
+                statusBar.BackgroundColor = bgStatusBar;
+                statusBar.ForegroundColor = fgStatusBar;
+                statusBar.BackgroundOpacity = 0.0;
                 StatusBarProgressIndicator indicator = statusBar.ProgressIndicator;
                 await indicator.HideAsync();
             }
@@ -97,7 +91,14 @@ namespace Telekom
 
         private async void Telekom()
         {
-            StatusText(resourceLoader.GetString("Loading"));
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                bgStatusBar = StatusBar.GetForCurrentView().BackgroundColor;
+                fgStatusBar = StatusBar.GetForCurrentView().ForegroundColor;
+            }
+
+            StatusText(App.resourceLoader.GetString("Loading"));
 
             Debug.WriteLine("[tlkm_extendedsplash] 500ms wait"); //seems like that something has issues getting loaded as soon as the page is loaded
             await System.Threading.Tasks.Task.Delay(500);
@@ -106,7 +107,7 @@ namespace Telekom
 
             if (App.TLKM.localSettings.Values["hasAccount"] as string == "yes")
             {
-                StatusText(resourceLoader.GetString("Logging_in"));
+                StatusText(App.resourceLoader.GetString("Logging_in"));
 
                 Debug.WriteLine("[tlkm_extendedsplash] settings - hasAccount - retrieving information");
 
@@ -127,14 +128,14 @@ namespace Telekom
                 if (success)
                 {
                     Debug.WriteLine("[tlkm_extendedsplash] logged in successfully!");
-                    StatusText(resourceLoader.GetString("Login_success"));
+                    StatusText(App.resourceLoader.GetString("Login_success"));
                     dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
                 }
                 else
                 {
                     if (App.TLKM.lastCode == "hal.security.authentication.access_token.invalid")
                     {
-                        StatusText(resourceLoader.GetString("Generating_new_token"));
+                        StatusText(App.resourceLoader.GetString("Generating_new_token"));
                         bool regen_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Regen_token());
                         if (regen_success)
                             Debug.WriteLine("[tlkm_extendedsplash] token regenerated successfully!");
@@ -145,7 +146,7 @@ namespace Telekom
                         if (success)
                         {
                             Debug.WriteLine("[tlkm_extendedsplash] login attempt 2 - logged in successfully!");
-                            StatusText(resourceLoader.GetString("Login_success"));
+                            StatusText(App.resourceLoader.GetString("Login_success"));
                             dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
                         }
                         else
@@ -166,6 +167,7 @@ namespace Telekom
                     HideStatusText();
                     rootFrame.Navigate(typeof(AppShell));
                     Window.Current.Content = rootFrame;
+
                 }
 
             }
@@ -174,7 +176,7 @@ namespace Telekom
                 Debug.WriteLine("[tlkm_extendedsplash] settings - no account - proceeding to setup");
 
                 HideStatusText();
-                rootFrame.Navigate(typeof(setup_pin));
+                rootFrame.Navigate(typeof(Setup_pin));
                 Window.Current.Content = rootFrame;
             }
         }

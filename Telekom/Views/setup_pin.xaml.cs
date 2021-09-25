@@ -1,31 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Telekom
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class setup_pin : Page
+    public sealed partial class Setup_pin : Page
     {
 
-        public setup_pin()
+        public Setup_pin()
         {
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
@@ -58,12 +42,12 @@ namespace Telekom
 
             Debug.WriteLine("[tlkm_setup_pin] parsed number " + parsedNumber);
 
-            Boolean success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Pin(parsedNumber));
+            bool success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Pin(parsedNumber));
             if (success)
             {
                 Debug.WriteLine("[tlkm_setup_pin] pin sent successfully");
 
-                Frame.Navigate(typeof(setup_verif));
+                Frame.Navigate(typeof(Setup_verif));
             }
             else
                 await App.TLKM.ShowError();

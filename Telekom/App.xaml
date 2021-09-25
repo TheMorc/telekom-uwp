@@ -6,10 +6,7 @@
 
     <Application.Resources>
         <ResourceDictionary>
-
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="SystemAccentColor">#E20074</Color>
 
         </ResourceDictionary>
     </Application.Resources>
