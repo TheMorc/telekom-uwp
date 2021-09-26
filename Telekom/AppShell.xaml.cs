@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Telekom.Views;
 using Windows.UI.Xaml.Controls;
 
 namespace Telekom
@@ -15,15 +16,15 @@ namespace Telekom
             hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems();
 
             frame.Navigate(typeof(Dashboard));
+            hamburgerMenuControl.SelectedIndex = 0;
         }
 
         private void OnMenuItemClick(object sender, ItemClickEventArgs e)
         {
             var menuItem = e.ClickedItem as MenuItem;
-            frame.Navigate(menuItem.PageType);
+            if (menuItem.PageType != frame.CurrentSourcePageType)
+                frame.Navigate(menuItem.PageType);
         }
-        
-        
         
     }
 
@@ -37,9 +38,9 @@ namespace Telekom
         {
             var items = new List<MenuItem>
             {
-                new MenuItem() { Icon = Symbol.Home, Name = App.resourceLoader.GetString("Overview/Text"), PageType = typeof(Dashboard) },
-                new MenuItem() { Icon = Symbol.Page2, Name = App.resourceLoader.GetString("Invoices/Text"), PageType = typeof(Dashboard) },
-                new MenuItem() { Icon = Symbol.Contact2, Name = App.resourceLoader.GetString("Profile/Text"), PageType = typeof(Dashboard) }
+                new MenuItem() { Icon = Symbol.Home, Name = App.resourceLoader.GetString("Overview/Text").Substring(0,1) + App.resourceLoader.GetString("Overview/Text").Substring(1).ToLower(), PageType = typeof(Dashboard) },
+                new MenuItem() { Icon = Symbol.Page2, Name = App.resourceLoader.GetString("Invoices/Text").Substring(0,1) + App.resourceLoader.GetString("Invoices/Text").Substring(1).ToLower(), PageType = typeof(Invoices) },
+                new MenuItem() { Icon = Symbol.Contact2, Name = App.resourceLoader.GetString("Profile/Text").Substring(0,1) + App.resourceLoader.GetString("Profile/Text").Substring(1).ToLower(), PageType = typeof(Profile) }
             };
             return items;
         }
@@ -48,7 +49,7 @@ namespace Telekom
         {
             var items = new List<MenuItem>
             {
-                new MenuItem() { Icon = Symbol.Setting, Name = App.resourceLoader.GetString("Settings/Text"), PageType = typeof(Dashboard) }
+                new MenuItem() { Icon = Symbol.Setting, Name = App.resourceLoader.GetString("Settings/Text").Substring(0,1) + App.resourceLoader.GetString("Settings/Text").Substring(1).ToLower(), PageType = typeof(Settings) }
             };
             return items;
         }

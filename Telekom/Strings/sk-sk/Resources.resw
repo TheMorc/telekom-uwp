@@ -122,7 +122,7 @@
     <comment>extended splash</comment>
   </data>
   <data name="Invoices/Text" xml:space="preserve">
-    <value>Faktúry</value>
+    <value>FAKTÚRY</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Načítavam...</value>
@@ -136,13 +136,13 @@
     <comment>extended splash</comment>
   </data>
   <data name="Overview/Text" xml:space="preserve">
-    <value>Prehľad</value>
+    <value>PREHĽAD</value>
   </data>
   <data name="Profile/Text" xml:space="preserve">
-    <value>Profil</value>
+    <value>PROFIL</value>
   </data>
   <data name="Settings/Text" xml:space="preserve">
-    <value>Nastavenia</value>
+    <value>NASTAVENIA</value>
   </data>
   <data name="setup_pin_block1.Text" xml:space="preserve">
     <value>Zadajte vaše telefónne číslo, s ktorým sa prihlásite do aplikácie.</value>

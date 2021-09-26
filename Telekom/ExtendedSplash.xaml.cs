@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Telekom.Views;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -11,14 +12,13 @@ using Windows.UI.Xaml.Controls;
 
 namespace Telekom
 {
-    partial class ExtendedSplash
+    internal partial class ExtendedSplash
     {
         internal Rect splashImageRect;
         internal bool dismissed = false;
         internal Frame rootFrame;
         internal SplashScreen splash;
         internal double ScaleFactor;
-        internal Windows.UI.Color? bgStatusBar, fgStatusBar;
 
         public ExtendedSplash(SplashScreen splashscreen, bool loadState)
         {
@@ -38,13 +38,13 @@ namespace Telekom
             if (splash != null)
             {
                 // Register an event handler to be executed when the splash screen has been dismissed.
-                splash.Dismissed += new TypedEventHandler<SplashScreen, Object>(DismissedEventHandler);
+                splash.Dismissed += new TypedEventHandler<SplashScreen, object>(DismissedEventHandler);
 
                 // Retrieve the window coordinates of the splash screen image.
                 splashImageRect = splash.ImageLocation;
                 PositionImage();
             }
-            
+
 
             // Create a Frame to act as the navigation context
             rootFrame = new Frame();
@@ -52,7 +52,7 @@ namespace Telekom
             Telekom();
         }
 
-        async void StatusText(string text)
+        private async void StatusText(string text)
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
@@ -76,14 +76,25 @@ namespace Telekom
             }
         }
 
-        async void HideStatusText()
+        private async void HideStatusText()
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
-                statusBar.BackgroundColor = bgStatusBar;
-                statusBar.ForegroundColor = fgStatusBar;
-                statusBar.BackgroundOpacity = 0.0;
+
+                UISettings DefaultTheme = new Windows.UI.ViewManagement.UISettings();
+                string uiTheme = DefaultTheme.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background).ToString();
+                if (uiTheme == "#FF000000") //dark
+                {
+                    statusBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 31, 31, 31);
+                    statusBar.ForegroundColor = Windows.UI.Color.FromArgb(255, 255, 255, 255);
+                }
+                else if (uiTheme == "#FFFFFFFF") //light
+                {
+                    statusBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 230, 230, 230);
+                    statusBar.ForegroundColor = Windows.UI.Color.FromArgb(255, 0, 0, 0);
+                }
+
                 StatusBarProgressIndicator indicator = statusBar.ProgressIndicator;
                 await indicator.HideAsync();
             }
@@ -91,12 +102,6 @@ namespace Telekom
 
         private async void Telekom()
         {
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-                bgStatusBar = StatusBar.GetForCurrentView().BackgroundColor;
-                fgStatusBar = StatusBar.GetForCurrentView().ForegroundColor;
-            }
 
             StatusText(App.resourceLoader.GetString("Loading"));
 
@@ -138,9 +143,13 @@ namespace Telekom
                         StatusText(App.resourceLoader.GetString("Generating_new_token"));
                         bool regen_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Regen_token());
                         if (regen_success)
+                        {
                             Debug.WriteLine("[tlkm_extendedsplash] token regenerated successfully!");
+                        }
                         else
+                        {
                             await App.TLKM.ShowError();
+                        }
 
                         success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Login());
                         if (success)
@@ -150,7 +159,9 @@ namespace Telekom
                             dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
                         }
                         else
+                        {
                             await App.TLKM.ShowError();
+                        }
                     }
                     else
                     {
@@ -182,7 +193,7 @@ namespace Telekom
         }
 
         // Position the extended splash screen image in the same location as the system splash screen image.
-        void PositionImage()
+        private void PositionImage()
         {
             extendedSplashImage.SetValue(Canvas.LeftProperty, splashImageRect.Left);
             extendedSplashImage.SetValue(Canvas.TopProperty, splashImageRect.Top);
@@ -198,7 +209,7 @@ namespace Telekom
             }
         }
 
-        void ExtendedSplash_OnResize(Object sender, WindowSizeChangedEventArgs e)
+        private void ExtendedSplash_OnResize(object sender, WindowSizeChangedEventArgs e)
         {
             // Safely update the extended splash screen image coordinates. This function will be fired in response to snapping, unsnapping, rotation, etc...
             if (splash != null)
@@ -210,7 +221,7 @@ namespace Telekom
         }
 
         // Include code to be executed when the system has transitioned from the splash screen to the extended splash screen (application's first view).
-        void DismissedEventHandler(SplashScreen sender, object e)
+        private void DismissedEventHandler(SplashScreen sender, object e)
         {
             dismissed = true;
             // Navigate away from the app's extended splash screen after completing setup operations here...

@@ -4,7 +4,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Telekom
+namespace Telekom.Views
 {
     public sealed partial class Setup_pin : Page
     {

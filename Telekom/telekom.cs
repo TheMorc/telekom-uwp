@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Windows.Storage;
+using Windows.UI.Notifications;
 using Windows.UI.Popups;
 
 namespace Telekom
@@ -32,7 +31,7 @@ namespace Telekom
 
         public async Task ShowError()
         {
-            var messageDialog = new MessageDialog(App.TLKM.lastError + "\n" + App.TLKM.lastCode);
+            MessageDialog messageDialog = new MessageDialog(App.TLKM.lastError + "\n" + App.TLKM.lastCode);
             messageDialog.Commands.Add(new UICommand("OK"));
             messageDialog.DefaultCommandIndex = 0;
             messageDialog.CancelCommandIndex = 0;
@@ -40,9 +39,71 @@ namespace Telekom
             await messageDialog.ShowAsync();
         }
 
+        public bool Update_LiveTile()
+        {
+            string from = productLabel;
+            string subject = remainingGB + "/" + maxGB + "GB";
+
+
+            TileContent content = new TileContent()
+            {
+                Visual = new TileVisual()
+                {
+                    Branding = TileBranding.NameAndLogo,
+
+                    TileMedium = new TileBinding()
+                    {
+                        Content = new TileBindingContentAdaptive()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText()
+                                {
+                                    Text = from,
+                                    HintStyle = AdaptiveTextStyle.Base
+                                },
+
+                                new AdaptiveText()
+                                {
+                                    Text = subject,
+                                    HintStyle = AdaptiveTextStyle.CaptionSubtle
+                            }
+                                }
+                        }
+                    },
+
+                    TileWide = new TileBinding()
+                    {
+                        Content = new TileBindingContentAdaptive()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText()
+                                {
+                                    Text = from,
+                                    HintStyle = AdaptiveTextStyle.Base
+                                },
+
+                                new AdaptiveText()
+                                {
+                                    Text = subject,
+                                    HintStyle = AdaptiveTextStyle.CaptionSubtle
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            TileNotification notification = new TileNotification(content.GetXml());
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
+
+            return true;
+        }
+
         public async Task<bool> Dashboard()
         {
-            using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/dashboard/product/" + productId + "?enableFreeUnit=true&priority=primary&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&showTotalCreditBalance=true&showUnlimited=true"))
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/dashboard/product/" + productId + "?enableFreeUnit=true&priority=primary&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&showTotalCreditBalance=true&showUnlimited=true"))
             {
                 request.Headers.TryAddWithoutValidation("Accept", "*/*");
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
@@ -50,7 +111,7 @@ namespace Telekom
                 request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
                 request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
 
-                var response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
                 dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
                 if (json.errorType != null)
                 {
@@ -73,7 +134,7 @@ namespace Telekom
         public async Task<bool> Regen_token()
         {
 
-            using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://t-app.telekom.sk/token/"))
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("POST"), "https://t-app.telekom.sk/token/"))
             {
                 request.Headers.TryAddWithoutValidation("Accept", "*/*");
                 request.Headers.TryAddWithoutValidation("Authorization", "7d06dd59-687c-454e-ade8-3520ff79a00d");
@@ -83,7 +144,7 @@ namespace Telekom
                 request.Content = new StringContent("{\"genCenToken\":false,\"refreshToken\":\"" + refreshToken + "\",\"deviceId\":\"" + deviceId + "\"}");
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
 
-                var response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
 
                 dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
                 if (json.errorType != null)
@@ -114,19 +175,21 @@ namespace Telekom
 
             Debug.WriteLine("[tlkm_main] login for " + serviceId);
 
-            using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/profiles/?deviceId=" + deviceId + "&devicesWithEMI=false&genCenToken=true&hybridEnabled=true&loyaltyEnabled=false&sub=MSISDN_" + serviceId + "&subscriptionServiceEnabled=false"))
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/profiles/?deviceId=" + deviceId + "&devicesWithEMI=false&genCenToken=true&hybridEnabled=true&loyaltyEnabled=false&sub=MSISDN_" + serviceId + "&subscriptionServiceEnabled=false"))
             {
                 request.Headers.TryAddWithoutValidation("Accept", "*/*");
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
                 request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
                 request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
 
-                var response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
 
-                var semiParsedJson = response.Content.ReadAsStringAsync().Result;
+                string semiParsedJson = response.Content.ReadAsStringAsync().Result;
 
                 if (semiParsedJson.StartsWith("["))
+                {
                     semiParsedJson = response.Content.ReadAsStringAsync().Result.Remove(0, 2).Remove(response.Content.ReadAsStringAsync().Result.Length - 3, 1);
+                }
 
                 dynamic json = JObject.Parse(semiParsedJson);
                 JObject jobj = JObject.Parse(semiParsedJson);
@@ -140,15 +203,15 @@ namespace Telekom
                     return false;
                 }
 
-                var product = from p in jobj["manageableAssets"] select (string)p["id"];
-                foreach (var item in product)
+                System.Collections.Generic.IEnumerable<string> product = from p in jobj["manageableAssets"] select (string)p["id"];
+                foreach (string item in product)
                 {
                     Debug.WriteLine("[tlkm_main - login] productId: " + item);
                     productId = item;
                 }
 
-                var label = from p in jobj["manageableAssets"] select (string)p["label"];
-                foreach (var item in label)
+                System.Collections.Generic.IEnumerable<string> label = from p in jobj["manageableAssets"] select (string)p["label"];
+                foreach (string item in label)
                 {
                     Debug.WriteLine("[tlkm_main - login] productLabel: " + item);
                     productLabel = item;
@@ -165,7 +228,7 @@ namespace Telekom
         {
             Debug.WriteLine("[tlkm_main] PIN for " + parsedNumber);
 
-            using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://t-app.telekom.sk/pin/"))
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("POST"), "https://t-app.telekom.sk/pin/"))
             {
                 request.Headers.TryAddWithoutValidation("Authorization", "7d06dd59-687c-454e-ade8-3520ff79a00d");
                 request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
@@ -174,7 +237,7 @@ namespace Telekom
                 request.Content = new StringContent("{\"serviceId\":\"+" + parsedNumber + "\",\"serviceType\":\"phoneNumber\",\"device\":{\"os\":\"ios\"},\"context\":\"login\"}");
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
 
-                var response = httpClient.SendAsync(request);
+                Task<HttpResponseMessage> response = httpClient.SendAsync(request);
 
                 dynamic json = JObject.Parse(response.Result.Content.ReadAsStringAsync().Result);
                 if (json.errorType != null)
@@ -197,7 +260,7 @@ namespace Telekom
         {
             Debug.WriteLine("[tlkm_main] PIN verif input " + PIN);
 
-            using (var request = new HttpRequestMessage(new HttpMethod("PUT"), "https://t-app.telekom.sk/pin/"))
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PUT"), "https://t-app.telekom.sk/pin/"))
             {
                 request.Headers.TryAddWithoutValidation("Accept", "*/*");
                 request.Headers.TryAddWithoutValidation("Authorization", "7d06dd59-687c-454e-ade8-3520ff79a00d");
@@ -207,7 +270,7 @@ namespace Telekom
                 request.Content = new StringContent("{\"device\":{\"id\":\"" + deviceId + "\",\"os\":\"ios\"},\"enableProfilePin\":false,\"serviceId\":\"+" + serviceId + "\",\"serviceType\":\"phoneNumber\",\"context\":\"login\",\"PIN\":\"" + PIN + "\",\"nonce\":\"" + nonce + "\"}");
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
 
-                var response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
 
                 dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
                 if (json.errorType != null)

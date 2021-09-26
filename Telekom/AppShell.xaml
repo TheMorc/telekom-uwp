@@ -23,9 +23,11 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <controls:HamburgerMenu x:Name="hamburgerMenuControl"
                                 SelectedIndex="0"
+                                PaneBackground="{ThemeResource BarBGColor}"
+                                PaneForeground="{ThemeResource BarFGColor}"
                                 ItemTemplate="{StaticResource DefaultTemplate}"
                                 OptionsItemTemplate="{StaticResource DefaultTemplate}"
                                 ItemClick="OnMenuItemClick"
@@ -34,8 +36,8 @@
                                 DisplayMode="CompactOverlay"
                                 HamburgerVisibility="Visible"
                                 IsPaneOpen="False"
-                                UseNavigationViewWhenPossible="False">
-
+                                UseNavigationViewWhenPossible="False" FontFamily="Segoe UI">
+            
             <Frame x:Name="frame"
                    Margin="0,0,0,0">
                 <Frame.ContentTransitions>
