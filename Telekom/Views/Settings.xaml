@@ -8,16 +8,6 @@
     d:DesignWidth="540" d:DesignHeight="960">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{ThemeResource BarBGColor}">
-            <TextBlock x:Name="Header"
-                       Foreground="{ThemeResource BarFGColor}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center" Text="PLACEHOLDER"
-                       FontSize="15" x:Uid="Settings" FontWeight="SemiBold" Margin="10,0,0,2" FontFamily="Segoe UI" />
-        </Border>
+
     </Grid>
 </Page>

@@ -144,6 +144,9 @@
   <data name="Settings/Text" xml:space="preserve">
     <value>NASTAVENIA</value>
   </data>
+  <data name="setup_pin/Text" xml:space="preserve">
+    <value>PRIHLÁSENIE</value>
+  </data>
   <data name="setup_pin_block1.Text" xml:space="preserve">
     <value>Zadajte vaše telefónne číslo, s ktorým sa prihlásite do aplikácie.</value>
     <comment>setup pin</comment>
@@ -156,6 +159,9 @@
   </data>
   <data name="setup_pin_button.Content" xml:space="preserve">
     <value>Poslať kód</value>
+  </data>
+  <data name="setup_verif/Text" xml:space="preserve">
+    <value>VERIFIKÁCIA</value>
   </data>
   <data name="setup_verif_block" xml:space="preserve">
     <value>Zadajte prihlasovací kód ktorý sme vám poslali na telefónne číslo.</value>

@@ -105,8 +105,8 @@ namespace Telekom
 
             StatusText(App.resourceLoader.GetString("Loading"));
 
-            Debug.WriteLine("[tlkm_extendedsplash] 500ms wait"); //seems like that something has issues getting loaded as soon as the page is loaded
-            await System.Threading.Tasks.Task.Delay(500);
+            Debug.WriteLine("[tlkm_extendedsplash] 200ms wait"); //seems like that something has issues getting loaded as soon as the page is loaded
+            await System.Threading.Tasks.Task.Delay(200);
 
             Debug.WriteLine("[tlkm_extendedsplash] deviceId: " + App.TLKM.deviceId.ToString());
 
@@ -178,7 +178,6 @@ namespace Telekom
                     HideStatusText();
                     rootFrame.Navigate(typeof(AppShell));
                     Window.Current.Content = rootFrame;
-
                 }
 
             }

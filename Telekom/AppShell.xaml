@@ -37,20 +37,32 @@
                                 HamburgerVisibility="Visible"
                                 IsPaneOpen="False"
                                 UseNavigationViewWhenPossible="False" FontFamily="Segoe UI">
-            
-            <Frame x:Name="frame"
+            <StackPanel>
+                <CommandBar OverflowButtonVisibility="Collapsed" Height="48" x:Name="commandBar">
+                    <AppBarButton x:FieldModifier="public" Icon="Refresh" Width="48" Click="AppBarButton_Click" x:Name="commandBarRefresh"/>
+                    <CommandBar.Content>
+                        <TextBlock x:Name="commandBarHeader"
+                       Foreground="{ThemeResource BarFGColor}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center" Text="appshell" x:Uid="Overview"
+                       FontSize="15" FontWeight="SemiBold" Margin="10,13,0,2" />
+                    </CommandBar.Content>
+                </CommandBar>
+                <Frame x:Name="frame"
                    Margin="0,0,0,0">
-                <Frame.ContentTransitions>
-                    <TransitionCollection>
-                        <NavigationThemeTransition>
-                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                                <EntranceNavigationTransitionInfo/>
-                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                        </NavigationThemeTransition>
-                    </TransitionCollection>
-                </Frame.ContentTransitions>
-            </Frame>
+
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition>
+                                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                    <EntranceNavigationTransitionInfo/>
+                                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                            </NavigationThemeTransition>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
+                </Frame>
+            </StackPanel>
         </controls:HamburgerMenu>
     </Grid>
-    
+
 </Page>

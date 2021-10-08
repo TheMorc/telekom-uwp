@@ -6,7 +6,8 @@ namespace Telekom.Views
     {
         public Settings()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            App.commandBarRefreshVisible = Windows.UI.Xaml.Visibility.Collapsed;
         }
     }
 }

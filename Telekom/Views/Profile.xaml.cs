@@ -2,12 +2,12 @@
 
 namespace Telekom.Views
 {
-    
     public sealed partial class Profile : Page
     {
         public Profile()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            App.commandBarRefreshVisible = Windows.UI.Xaml.Visibility.Collapsed;
         }
     }
 }

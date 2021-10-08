@@ -8,6 +8,15 @@
     d:DesignWidth="540" d:DesignHeight="960">
 
     <Grid>
+        <CommandBar OverflowButtonVisibility="Collapsed" Height="48">
+            <CommandBar.Content>
+                <TextBlock x:Name="Header"
+                       Foreground="{ThemeResource BarFGColor}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center" Text="placeholder"
+                       FontSize="15" x:Uid="setup_pin" FontWeight="SemiBold" Margin="10,13,0,2" />
+            </CommandBar.Content>
+        </CommandBar>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Zadajte vaše telefónne číslo, s ktorým sa prihlásite do aplikácie." x:Uid="setup_pin_block1" />
             <TextBox TextWrapping="Wrap" PlaceholderText="Telefónne číslo (napr. 0903903903)" InputScope="TelephoneNumber" Name="serviceId" x:Uid="setup_pin_box"/>

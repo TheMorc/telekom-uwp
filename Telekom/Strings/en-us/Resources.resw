@@ -144,6 +144,9 @@
   <data name="Settings/Text" xml:space="preserve">
     <value>SETTINGS</value>
   </data>
+  <data name="setup_pin/Text" xml:space="preserve">
+    <value>LOGIN</value>
+  </data>
   <data name="setup_pin_block1.Text" xml:space="preserve">
     <value>Please input your telephone number you'll use to log in to the app.</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="setup_pin_button.Content" xml:space="preserve">
     <value>Send code</value>
+  </data>
+  <data name="setup_verif/Text" xml:space="preserve">
+    <value>VERIFICATION</value>
   </data>
   <data name="setup_verif_block" xml:space="preserve">
     <value>Enter the PIN code we sent you to your telephone number.</value>

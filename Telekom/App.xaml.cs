@@ -8,9 +8,9 @@ namespace Telekom
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    public partial class App : Application
     {
-
+        public static Visibility commandBarRefreshVisible { get; set; }
         public static ResourceLoader resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
         public static Telekom TLKM = new Telekom();
 
@@ -20,9 +20,8 @@ namespace Telekom
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace Telekom
                 ExtendedSplash extendedSplash = new ExtendedSplash(e.SplashScreen, loadState);
                 Window.Current.Content = extendedSplash;
             }
-            
+
             Window.Current.Activate();
         }
 
@@ -51,7 +50,7 @@ namespace Telekom
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

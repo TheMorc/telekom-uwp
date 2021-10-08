@@ -8,6 +8,15 @@
     d:DesignWidth="540" d:DesignHeight="960">
 
     <Grid>
+        <CommandBar OverflowButtonVisibility="Collapsed" Height="48">
+            <CommandBar.Content>
+                <TextBlock x:Name="Header"
+                       Foreground="{ThemeResource BarFGColor}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center" Text="placeholder"
+                       FontSize="15" x:Uid="setup_verif" FontWeight="SemiBold" Margin="10,13,0,2" />
+            </CommandBar.Content>
+        </CommandBar>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Zadajte prihlasovací kód ktorý sme vám poslali na telefónne číslo." x:Uid="setup_verif_block"/>
             <TextBox TextWrapping="Wrap" PlaceholderText="Prihlasovací kód" InputScope="NumericPin" Name="serviceId" x:Uid="setup_verif_box"/>
