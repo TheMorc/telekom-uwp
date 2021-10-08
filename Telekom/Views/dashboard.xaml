@@ -5,19 +5,19 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       d:DesignWidth="540" d:DesignHeight="960">
-    
-     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{ThemeResource BarBGColor}">
-            <TextBlock x:Name="Header"
+
+
+    <Grid>
+        <CommandBar OverflowButtonVisibility="Collapsed" Height="48">
+            <AppBarButton Icon="Refresh" Width="48" Click="AppBarButton_Click"/>
+            <CommandBar.Content>
+                <TextBlock x:Name="Header"
                        Foreground="{ThemeResource BarFGColor}"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center" Text="PLACEHOLDER"
-                       FontSize="15" x:Uid="Overview" FontWeight="SemiBold" Margin="10,0,0,2" />
-        </Border>
+                       FontSize="15" x:Uid="Overview" FontWeight="SemiBold" Margin="10,13,0,2" />
+            </CommandBar.Content>
+        </CommandBar>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="x" Name="simName"/>
             <TextBlock Text="x" Name="simData"/>

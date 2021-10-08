@@ -131,6 +131,7 @@ namespace Telekom
             }
         }
 
+        #region pin&verif and login + regen_token
         public async Task<bool> Regen_token()
         {
 
@@ -303,5 +304,6 @@ namespace Telekom
                 return true;
             }
         }
+        #endregion
     }
 }

@@ -151,10 +151,10 @@
   <data name="setup_pin_block2.Text" xml:space="preserve">
     <value>Na vaše telefónne číslo pošleme prihlasovací kód cez SMS.</value>
   </data>
-  <data name="setup_pin_box.Text" xml:space="preserve">
+  <data name="setup_pin_box.PlaceholderText" xml:space="preserve">
     <value>Telefónne číslo (napr. 0903903903)</value>
   </data>
-  <data name="setup_pin_button.Text" xml:space="preserve">
+  <data name="setup_pin_button.Content" xml:space="preserve">
     <value>Poslať kód</value>
   </data>
   <data name="setup_verif_block" xml:space="preserve">
@@ -163,7 +163,7 @@
   <data name="setup_verif_box" xml:space="preserve">
     <value>Prihlasovcí kód</value>
   </data>
-  <data name="setup_verif_button.Text" xml:space="preserve">
+  <data name="setup_verif_button.Content" xml:space="preserve">
     <value>Overiť</value>
   </data>
 </root>
