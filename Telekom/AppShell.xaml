@@ -49,7 +49,7 @@
                     </CommandBar.Content>
                 </CommandBar>
                 <Frame x:Name="frame"
-                   Margin="0,0,0,0">
+                   Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SizeChanged="Frame_SizeChanged">
 
                     <Frame.ContentTransitions>
                         <TransitionCollection>

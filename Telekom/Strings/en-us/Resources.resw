@@ -117,9 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Eshop/Text" xml:space="preserve">
+    <value>E-SHOP</value>
+  </data>
   <data name="Generating_new_token" xml:space="preserve">
     <value>Generating a new token...</value>
     <comment>extended splash</comment>
+  </data>
+  <data name="Gifts/Text" xml:space="preserve">
+    <value>GIFTS</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>invoice</value>
   </data>
   <data name="Invoices/Text" xml:space="preserve">
     <value>INVOICES</value>
@@ -134,6 +143,9 @@
   <data name="Login_success" xml:space="preserve">
     <value>Logged in successfully!</value>
     <comment>extended splash</comment>
+  </data>
+  <data name="Magenta1/Text" xml:space="preserve">
+    <value>MAGENTA 1 GROUP</value>
   </data>
   <data name="Overview/Text" xml:space="preserve">
     <value>OVERVIEW</value>
@@ -162,10 +174,10 @@
   <data name="setup_verif/Text" xml:space="preserve">
     <value>VERIFICATION</value>
   </data>
-  <data name="setup_verif_block" xml:space="preserve">
+  <data name="setup_verif_block.Text" xml:space="preserve">
     <value>Enter the PIN code we sent you to your telephone number.</value>
   </data>
-  <data name="setup_verif_box" xml:space="preserve">
+  <data name="setup_verif_box.PlaceholderText" xml:space="preserve">
     <value>PIN code</value>
   </data>
   <data name="setup_verif_button.Content" xml:space="preserve">

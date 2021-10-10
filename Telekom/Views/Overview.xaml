@@ -9,8 +9,11 @@
 
     <Grid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="x" Name="simName"/>
-            <TextBlock Text="x" Name="simData"/>
+            <TextBlock Text="" Name="simName"/>
+            <TextBlock Text="" Name="simData"/>
+
+            <TextBlock Text="" Name="ubill_count"/>
+            <TextBlock Text="" Name="ubill_amount"/>
         </StackPanel>
     </Grid>
 

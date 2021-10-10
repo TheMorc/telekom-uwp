@@ -8,6 +8,14 @@
     d:DesignWidth="540" d:DesignHeight="960">
 
     <Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox TextWrapping="Wrap" PlaceholderText="SIM" Name="simLabel"/>
+            <TextBox TextWrapping="Wrap" PlaceholderText="Krstné meno" Name="firstName"/>
+            <TextBox TextWrapping="Wrap" PlaceholderText="Priezvisko" Name="lastName"/>
+            <TextBox TextWrapping="Wrap" PlaceholderText="Prihlasovacie meno účtu Môj Telekom" Name="telekom_username" IsEnabled="False"/>
+            <TextBox TextWrapping="Wrap" PlaceholderText="Kontaktné telefónne číslo" InputScope="TelephoneNumber" Name="contactTelephoneNumber"/>
 
+            <Button Content="Uložiť zmeny" Click="Button_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

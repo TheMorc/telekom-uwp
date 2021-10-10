@@ -11,6 +11,7 @@ namespace Telekom
     public partial class App : Application
     {
         public static Visibility commandBarRefreshVisible { get; set; }
+        public static double frameHeight { get; set; }
         public static ResourceLoader resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
         public static Telekom TLKM = new Telekom();
 

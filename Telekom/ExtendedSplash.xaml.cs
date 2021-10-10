@@ -127,14 +127,12 @@ namespace Telekom
                 App.TLKM.serviceId = (long)App.TLKM.localSettings.Values["serviceId"];
                 Debug.WriteLine("[tlkm_extendedsplash] settings - serviceId: " + App.TLKM.serviceId);
 
-                bool dash_success = false;
 
                 bool success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Login());
                 if (success)
                 {
                     Debug.WriteLine("[tlkm_extendedsplash] logged in successfully!");
                     StatusText(App.resourceLoader.GetString("Login_success"));
-                    dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
                 }
                 else
                 {
@@ -156,7 +154,6 @@ namespace Telekom
                         {
                             Debug.WriteLine("[tlkm_extendedsplash] login attempt 2 - logged in successfully!");
                             StatusText(App.resourceLoader.GetString("Login_success"));
-                            dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
                         }
                         else
                         {
@@ -169,17 +166,9 @@ namespace Telekom
                     }
                 }
 
-                if (!dash_success)
-                {
-                    await App.TLKM.ShowError();
-                }
-                else
-                {
-                    HideStatusText();
-                    rootFrame.Navigate(typeof(AppShell));
-                    Window.Current.Content = rootFrame;
-                }
-
+                HideStatusText();
+                rootFrame.Navigate(typeof(AppShell));
+                Window.Current.Content = rootFrame;
             }
             else
             {

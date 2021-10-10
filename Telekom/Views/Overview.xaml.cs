@@ -9,22 +9,32 @@ namespace Telekom.Views
         {
             InitializeComponent();
             App.commandBarRefreshVisible = Windows.UI.Xaml.Visibility.Visible;
-            simName.Text = App.TLKM.productLabel + " - " + App.TLKM.productName;
-            simData.Text = App.TLKM.remainingGB + "/" + App.TLKM.maxGB + "GB";
-            App.TLKM.Update_LiveTile();
+            Load_Dashboard();
         }
 
-
-        /* bool success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
-         if (success)
-         {
-             simName.Text = App.TLKM.productLabel + " - " + App.TLKM.productName;
-             simData.Text = App.TLKM.remainingGB + "/" + App.TLKM.maxGB + "GB";
-         }
-         else
-         {
-             await App.TLKM.ShowError();
-         }*/
-
+        private async void Load_Dashboard()
+        {
+            bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
+            if (dash_success)
+            {
+                simName.Text = App.TLKM.productLabel + " - " + App.TLKM.productName;
+                simData.Text = App.TLKM.remainingGB + "/" + App.TLKM.maxGB + "GB";
+                App.TLKM.Update_LiveTile();
+            }
+            else
+            {
+                await App.TLKM.ShowError();
+            }
+            bool unpaidbills_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Unpaid_Bills());
+            if (unpaidbills_success)
+            {
+                ubill_count.Text = App.TLKM.unpaidBillsCount + " " + App.resourceLoader.GetString("Invoice");
+                ubill_amount.Text = App.TLKM.unpaidBillsAmount + " " + App.TLKM.unpaidBillsCurrency;
+            }
+            else
+            {
+                await App.TLKM.ShowError();
+            }
+        }
     }
 }

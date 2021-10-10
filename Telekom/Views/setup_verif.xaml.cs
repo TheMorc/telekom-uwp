@@ -38,15 +38,7 @@ namespace Telekom.Views
                 if (login_success)
                 {
                     Debug.WriteLine("[tlkm_setup_verif] logged in successfully!");
-                    bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
-                    if (!dash_success)
-                    {
-                        await App.TLKM.ShowError();
-                    }
-                    else
-                    {
-                        Frame.Navigate(typeof(Overview));
-                    }
+                    Frame.Navigate(typeof(AppShell));
                 }
                 else
                 {

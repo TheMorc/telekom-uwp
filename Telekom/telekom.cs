@@ -22,11 +22,15 @@ namespace Telekom
         public string productId = "";
         public string productLabel = "";
         public string productName = "";
-        public string fullName = "";
+        public string fullName, givenName, familyName = "";
         public double maxGB, remainingGB = 0;
         public long serviceId = 0;
         public string lastError = "";
         public string lastCode = "";
+        public int unpaidBillsCount = 0;
+        public string unpaidBillsCurrency = "";
+        public double unpaidBillsAmount = 0;
+        public string telekom_username = "";
         internal static HttpClient httpClient = new HttpClient();
 
         public async Task ShowError()
@@ -131,6 +135,59 @@ namespace Telekom
             }
         }
 
+        public async Task<bool> Unpaid_Bills()
+        {
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/customerBills/unpaid/summary/"))
+            {
+                request.Headers.TryAddWithoutValidation("Accept", "*/*");
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+                request.Headers.TryAddWithoutValidation("X-Client-Version", "18.8.2 (887) 2-78c3ec0 (HEAD)");
+                request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
+                request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
+
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+                if (json.errorType != null)
+                {
+                    string errorMessage = "[tlkm_main - unpaid_bills] " + json.message + " " + json.code;
+                    Debug.WriteLine(errorMessage);
+                    lastCode = json.code;
+                    lastError = json.message;
+                    return false;
+                }
+
+                unpaidBillsAmount = json.cost.amount;
+                unpaidBillsCount = json.count;
+                unpaidBillsCurrency = json.cost.currencyCode;
+                Debug.WriteLine("[tlkm_main - unpaid_bills] count:" + unpaidBillsCount + " - amount: " + unpaidBillsAmount + unpaidBillsCurrency);
+
+                return true;
+            }
+        }
+
+        public async Task<bool> PatchProfile(string simLabel, string firstName, string lastName, string contactTel)
+        {
+            if (productLabel != simLabel)
+            {
+
+            }
+            if (givenName != firstName)
+            {
+
+            }
+            if (familyName != lastName)
+            {
+            }
+            if (serviceId != long.Parse(contactTel.Remove(0, 1)))
+            {
+
+            }
+
+            // TODO: implement PATCH
+
+            return false;
+        }
+
         #region pin&verif and login + regen_token
         public async Task<bool> Regen_token()
         {
@@ -174,6 +231,7 @@ namespace Telekom
             //this function is not invoked until the variables are not populated
             //this should not happen in any other order.
 
+
             Debug.WriteLine("[tlkm_main] login for " + serviceId);
 
             using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/profiles/?deviceId=" + deviceId + "&devicesWithEMI=false&genCenToken=true&hybridEnabled=true&loyaltyEnabled=false&sub=MSISDN_" + serviceId + "&subscriptionServiceEnabled=false"))
@@ -194,6 +252,8 @@ namespace Telekom
 
                 dynamic json = JObject.Parse(semiParsedJson);
                 JObject jobj = JObject.Parse(semiParsedJson);
+
+                // TODO: implement a better json parser, this method sucks quite a bit
 
                 if (json.errorType != null)
                 {
@@ -218,7 +278,29 @@ namespace Telekom
                     productLabel = item;
                 }
 
+                System.Collections.Generic.IEnumerable<string> username = from p in jobj["characteristics"] select (string)p["value"];
+                foreach (string item in username)
+                {
+                    if (item == "B2C")
+                    {
+                        break;
+                    }
+
+                    Debug.WriteLine("[tlkm_main - login] telekom_username: " + item);
+                    telekom_username = item;
+                }
+
+                // TODO: parse email
+                //System.Collections.Generic.IEnumerable<string> contactMediums_email = from p in jobj["contactMediums"] select (string)p["medium"];
+                //foreach (string item in contactMediums_email)
+                //{
+                //  Debug.WriteLine("[tlkm_main - login] email: " + item);
+                //email = item;
+                //}
+
                 fullName = json.individual.givenName + " " + json.individual.familyName;
+                givenName = json.individual.givenName;
+                familyName = json.individual.familyName;
                 Debug.WriteLine("[tlkm_main - login] fullName: " + fullName);
 
                 return true;
