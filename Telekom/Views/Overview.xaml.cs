@@ -35,6 +35,14 @@ namespace Telekom.Views
             {
                 await App.TLKM.ShowError();
             }
+            bool prodreport_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.ProductReport());
+            if (prodreport_success)
+            {
+            }
+            else
+            {
+                await App.TLKM.ShowError();
+            }
         }
     }
 }

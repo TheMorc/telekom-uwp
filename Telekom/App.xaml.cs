@@ -35,6 +35,7 @@ namespace Telekom
             if (e.PreviousExecutionState != ApplicationExecutionState.Running)
             {
                 bool loadState = (e.PreviousExecutionState == ApplicationExecutionState.Terminated);
+                TLKM.splashScreen = e.SplashScreen;
                 ExtendedSplash extendedSplash = new ExtendedSplash(e.SplashScreen, loadState);
                 Window.Current.Content = extendedSplash;
             }

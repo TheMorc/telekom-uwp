@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="Telekom.Views.Error"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="540" d:DesignHeight="960">
+
+    <Grid>
+        <CommandBar OverflowButtonVisibility="Collapsed" Height="48" FontFamily="Segoe UI">
+            <CommandBar.Content>
+                <TextBlock x:Name="Header"
+                       Foreground="{ThemeResource BarFGColor}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center" Text="placeholder"
+                       FontSize="15" FontWeight="SemiBold" Margin="10,13,0,2" x:Uid="error_commandbar"/>
+            </CommandBar.Content>
+        </CommandBar>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="chyba" FontWeight="Bold" FontSize="20" Name="error_block" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWholeWords"/>
+            <FontIcon Grid.Column="0" FontSize="50" FontFamily="/mdl2_assets.ttf#Segoe MDL2 Assets" Glyph="&#62340;" Margin="0,15,0,15" Name="error_icon" />
+            <TextBlock Text="" FontWeight="Normal" FontSize="20" Name="error_reason" TextWrapping="WrapWholeWords"/>
+            <Button Content="Skúsiť znovu" Click="Button_Click" x:Uid="error_button"/>
+            <Button Content="Zavrieť" x:Uid="error_close" Click="Button_Click_1" />
+        </StackPanel>
+    </Grid>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <EdgeUIThemeTransition Edge="Left">
+            </EdgeUIThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+</Page>

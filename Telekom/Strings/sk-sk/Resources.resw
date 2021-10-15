@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="error_block.Text" xml:space="preserve">
+    <value>Vyzerá to že ste neni pripojení na internet.</value>
+  </data>
+  <data name="error_block_any/Text" xml:space="preserve">
+    <value>Nastala chyba.</value>
+  </data>
+  <data name="error_button.Content" xml:space="preserve">
+    <value>Skúsiť znovu</value>
+  </data>
+  <data name="error_commandbar/Text" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
   <data name="Eshop/Text" xml:space="preserve">
     <value>E-SHOP</value>
   </data>

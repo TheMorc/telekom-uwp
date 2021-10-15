@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Notifications;
 using Windows.UI.Popups;
@@ -14,6 +15,7 @@ namespace Telekom
 {
     public class Telekom
     {
+        public SplashScreen splashScreen = null;
         public ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public Guid deviceId = Windows.Storage.Streams.DataReader.FromBuffer(Windows.System.Profile.SystemIdentification.GetSystemIdForPublisher().Id).ReadGuid();
         private string nonce = "";
@@ -36,7 +38,7 @@ namespace Telekom
         public async Task ShowError()
         {
             MessageDialog messageDialog = new MessageDialog(App.TLKM.lastError + "\n" + App.TLKM.lastCode);
-            messageDialog.Commands.Add(new UICommand("OK"));
+            messageDialog.Commands.Add(new UICommand("Quit"));
             messageDialog.DefaultCommandIndex = 0;
             messageDialog.CancelCommandIndex = 0;
 
@@ -103,6 +105,34 @@ namespace Telekom
             TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
 
             return true;
+        }
+
+        public async Task<bool> ProductReport()
+        {
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/manageServices/product/" + productId + "/details?checkCancelEligibility=false&devicesWithEMI=false&disableDocumentManagement=true&enableExtraData=false&enableFreeUnit=true&enableVasCategories=false&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&subscriptionServiceEnabled=false&swapEnabled=false&tariffOfferEnable=true&transferUnitsEnabled=false&vasDelay=true"))
+            {
+                request.Headers.TryAddWithoutValidation("Accept", "*/*");
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+                request.Headers.TryAddWithoutValidation("X-Client-Version", "18.8.2 (887) 2-78c3ec0 (HEAD)");
+                request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
+                request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
+
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+                if (json.errorType != null)
+                {
+                    string errorMessage = "[tlkm_main - productreport] " + json.message + " " + json.code;
+                    Debug.WriteLine(errorMessage);
+                    lastCode = json.code;
+                    lastError = json.message;
+                    return false;
+                }
+
+                Debug.WriteLine("[tlkm_main - productreport] ");
+                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+
+                return true;
+            }
         }
 
         public async Task<bool> Dashboard()
@@ -232,7 +262,7 @@ namespace Telekom
             //this should not happen in any other order.
 
 
-            Debug.WriteLine("[tlkm_main] login for " + serviceId);
+            Debug.WriteLine("[tlkm_main - login] input number" + serviceId);
 
             using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/profiles/?deviceId=" + deviceId + "&devicesWithEMI=false&genCenToken=true&hybridEnabled=true&loyaltyEnabled=false&sub=MSISDN_" + serviceId + "&subscriptionServiceEnabled=false"))
             {
@@ -241,7 +271,19 @@ namespace Telekom
                 request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
                 request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
 
-                HttpResponseMessage response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = null;
+
+                try
+                {
+                    response = await httpClient.SendAsync(request);
+                }
+                catch
+                {
+                    Debug.WriteLine("[tlkm_main - login] seems like we dont have an internet connection");
+                    lastCode = "nointernet";
+                    lastError = "neni internet";
+                    return false;
+                }
 
                 string semiParsedJson = response.Content.ReadAsStringAsync().Result;
 

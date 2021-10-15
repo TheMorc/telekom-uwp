@@ -52,6 +52,7 @@ namespace Telekom
             Telekom();
         }
 
+        #region statusbar
         private async void StatusText(string text)
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
@@ -99,6 +100,7 @@ namespace Telekom
                 await indicator.HideAsync();
             }
         }
+        #endregion
 
         private async void Telekom()
         {
@@ -146,7 +148,8 @@ namespace Telekom
                         }
                         else
                         {
-                            await App.TLKM.ShowError();
+                            OpenErrorPage();
+                            return;
                         }
 
                         success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Login());
@@ -157,12 +160,19 @@ namespace Telekom
                         }
                         else
                         {
-                            await App.TLKM.ShowError();
+                            OpenErrorPage();
+                            return;
                         }
+                    }
+                    else if (App.TLKM.lastCode == "nointernet")
+                    {
+                        OpenErrorPage();
+                        return;
                     }
                     else
                     {
-                        await App.TLKM.ShowError();
+                        OpenErrorPage();
+                        return;
                     }
                 }
 
@@ -180,6 +190,14 @@ namespace Telekom
             }
         }
 
+        private void OpenErrorPage()
+        {
+            HideStatusText();
+            rootFrame.Navigate(typeof(Error));
+            Window.Current.Content = rootFrame;
+        }
+
+        #region extendedsplash logo
         // Position the extended splash screen image in the same location as the system splash screen image.
         private void PositionImage()
         {
@@ -215,6 +233,6 @@ namespace Telekom
             // Navigate away from the app's extended splash screen after completing setup operations here...
             // This sample navigates away from the extended splash screen when the "Learn More" button is clicked.
         }
-
+        #endregion
     }
 }
