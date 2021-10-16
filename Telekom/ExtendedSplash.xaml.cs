@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Connectivity;
+using System;
 using System.Diagnostics;
 using Telekom.Views;
 using Windows.ApplicationModel.Activation;
@@ -111,6 +112,13 @@ namespace Telekom
             await System.Threading.Tasks.Task.Delay(200);
 
             Debug.WriteLine("[tlkm_extendedsplash] deviceId: " + App.TLKM.deviceId.ToString());
+
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            {
+                App.TLKM.lastCode = "nointernet";
+                OpenErrorPage();
+                return;
+            }
 
             if (App.TLKM.localSettings.Values["hasAccount"] as string == "yes")
             {

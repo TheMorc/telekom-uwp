@@ -17,13 +17,22 @@
                        FontSize="15" FontWeight="SemiBold" Margin="10,13,0,2" x:Uid="error_commandbar"/>
             </CommandBar.Content>
         </CommandBar>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="chyba" FontWeight="Bold" FontSize="20" Name="error_block" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWholeWords"/>
-            <FontIcon Grid.Column="0" FontSize="50" FontFamily="/mdl2_assets.ttf#Segoe MDL2 Assets" Glyph="&#62340;" Margin="0,15,0,15" Name="error_icon" />
-            <TextBlock Text="" FontWeight="Normal" FontSize="20" Name="error_reason" TextWrapping="WrapWholeWords"/>
-            <Button Content="Skúsiť znovu" Click="Button_Click" x:Uid="error_button"/>
-            <Button Content="Zavrieť" x:Uid="error_close" Click="Button_Click_1" />
-        </StackPanel>
+        <ScrollViewer>
+            <RelativePanel Margin="25,50,25,0" Grid.RowSpan="2">
+                <StackPanel Name="panelIconText" RelativePanel.AlignHorizontalCenterWithPanel="true">
+                    <TextBlock Text="chyba" FontWeight="Bold" FontSize="20" Name="error_block" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWholeWords" Margin="0,50,0,0"/>
+                    <FontIcon Grid.Column="0" FontSize="50" FontFamily="/mdl2_assets.ttf#Segoe MDL2 Assets" Glyph="&#62340;" Margin="0,15,0,15" Name="error_icon" />
+                </StackPanel>
+                <StackPanel RelativePanel.Below="panelIconText" RelativePanel.AlignHorizontalCenterWithPanel="True" Background="{ThemeResource BarBGColor}" Margin="0,5,0,0">
+                    <TextBlock Text="placeholder - code" FontWeight="Normal" FontSize="18" Name="error_code" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,10,0"/>
+                    <TextBlock Text="placeholder" FontWeight="Normal" Name="error_reason" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,10,15"/>
+                    <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Skúsiť znovu" Click="Button_Click" x:Uid="error_tryagain" Margin="35,0,10,10" FontFamily="Segoe UI"/>
+                        <Button Content="Zavrieť" x:Uid="error_close" Click="Button_Click_1" Margin="10,0,35,10" />
+                    </StackPanel>
+                </StackPanel>
+            </RelativePanel>
+        </ScrollViewer>
     </Grid>
 
     <Page.Transitions>

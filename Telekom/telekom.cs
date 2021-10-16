@@ -281,7 +281,6 @@ namespace Telekom
                 {
                     Debug.WriteLine("[tlkm_main - login] seems like we dont have an internet connection");
                     lastCode = "nointernet";
-                    lastError = "neni internet";
                     return false;
                 }
 

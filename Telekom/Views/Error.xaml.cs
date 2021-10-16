@@ -16,12 +16,18 @@ namespace Telekom.Views
 
             if (App.TLKM.lastCode == "nointernet")
             {
+                error_icon.Glyph = "";
+                error_code.Text = "";
+                error_code.Visibility = Visibility.Collapsed;
+                error_reason.Text = App.resourceLoader.GetString("error_reason_nointernet/Text");
                 error_block.Text = App.resourceLoader.GetString("error_block_nointernet/Text");
             }
             else
             {
                 error_icon.Glyph = "";
-                error_block.Text = App.TLKM.lastError + " - " + App.TLKM.lastCode;
+                error_code.Text = App.TLKM.lastCode;
+                error_code.Visibility = Visibility.Visible;
+                error_reason.Text = App.resourceLoader.GetString("error_reason_any/Text");
                 error_block.Text = App.resourceLoader.GetString("error_block_any/Text");
             }
 

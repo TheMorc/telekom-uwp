@@ -119,80 +119,120 @@
   </resheader>
   <data name="error_block_any/Text" xml:space="preserve">
     <value>An error occured.</value>
+    <comment>Error.xaml</comment>
   </data>
   <data name="error_block_nointernet/Text" xml:space="preserve">
     <value>Looks like you aren't connected to the internet.</value>
+    <comment>Error.xaml</comment>
   </data>
-  <data name="error_button.Content" xml:space="preserve">
+  <data name="error_tryagain.Content" xml:space="preserve">
     <value>Try again</value>
+    <comment>Error.xaml</comment>
   </data>
   <data name="error_commandbar/Text" xml:space="preserve">
-    <value>Error</value>
+    <value>ERROR</value>
+    <comment>Error.xaml</comment>
   </data>
   <data name="Eshop/Text" xml:space="preserve">
     <value>E-SHOP</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Generating_new_token" xml:space="preserve">
     <value>Generating a new token...</value>
-    <comment>extended splash</comment>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Gifts/Text" xml:space="preserve">
     <value>GIFTS</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Invoice" xml:space="preserve">
     <value>invoice</value>
+    <comment>Overview.xaml</comment>
   </data>
   <data name="Invoices/Text" xml:space="preserve">
     <value>INVOICES</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
-    <comment>extended splash</comment>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Logging_in" xml:space="preserve">
     <value>Logging in...</value>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Login_success" xml:space="preserve">
     <value>Logged in successfully!</value>
-    <comment>extended splash</comment>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Magenta1/Text" xml:space="preserve">
     <value>MAGENTA 1 GROUP</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Overview/Text" xml:space="preserve">
     <value>OVERVIEW</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Profile/Text" xml:space="preserve">
     <value>PROFILE</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Settings/Text" xml:space="preserve">
     <value>SETTINGS</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="setup_pin/Text" xml:space="preserve">
     <value>LOGIN</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="setup_pin_block1.Text" xml:space="preserve">
     <value>Please input your telephone number you'll use to log in to the app.</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_pin_block2.Text" xml:space="preserve">
     <value>We'll send you a PIN code SMS to your telephone number.</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_pin_box.PlaceholderText" xml:space="preserve">
     <value>Telephone number (ex. 0903903903)</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_pin_button.Content" xml:space="preserve">
     <value>Send code</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_verif/Text" xml:space="preserve">
     <value>VERIFICATION</value>
+    <comment>Setup_verif.xaml</comment>
   </data>
   <data name="setup_verif_block.Text" xml:space="preserve">
     <value>Enter the PIN code we sent you to your telephone number.</value>
+    <comment>Setup_verif.xaml</comment>
   </data>
   <data name="setup_verif_box.PlaceholderText" xml:space="preserve">
     <value>PIN code</value>
+    <comment>Setup_verif.xaml</comment>
   </data>
   <data name="setup_verif_button.Content" xml:space="preserve">
     <value>Check code</value>
+    <comment>Setup_verif.xaml</comment>
+  </data>
+  <data name="error_close.Content" xml:space="preserve">
+    <value>Close</value>
+    <comment>Error.xaml</comment>
+  </data>
+  <data name="error_reason_any/Text" xml:space="preserve">
+    <value>Something went wrong. Please try again later.</value>
+    <comment>Error.xaml</comment>
+  </data>
+  <data name="error_reason_nointernet/Text" xml:space="preserve">
+    <value>Make sure Wi-Fi or cellular data is on.
+
+See if you can use the Wi-Fi or cellular data to get to websites from a different device. If you can't, restart your modem, router or device and reconnect.
+
+If you're using a wired Ethernet connection, make sure the cable is securely plugged into your device.
+
+If you already did any of the above and you still have problems, click Try again or close the app.</value>
+    <comment>Error.xaml</comment>
   </data>
 </root>

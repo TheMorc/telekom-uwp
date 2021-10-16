@@ -117,83 +117,122 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="error_block.Text" xml:space="preserve">
-    <value>Vyzerá to že ste neni pripojení na internet.</value>
-  </data>
   <data name="error_block_any/Text" xml:space="preserve">
     <value>Nastala chyba.</value>
+    <comment>Error.xaml</comment>
   </data>
-  <data name="error_button.Content" xml:space="preserve">
-    <value>Skúsiť znovu</value>
+  <data name="error_block_nointernet/Text" xml:space="preserve">
+    <value>Vyzerá to že ste neni pripojení na internet.</value>
+    <comment>Error.xaml</comment>
+  </data>
+  <data name="error_tryagain.Content" xml:space="preserve">
+    <value>Skúsiť znova</value>
+    <comment>Error.xaml</comment>
   </data>
   <data name="error_commandbar/Text" xml:space="preserve">
-    <value>Chyba</value>
+    <value>CHYBA</value>
+    <comment>Error.xaml</comment>
   </data>
   <data name="Eshop/Text" xml:space="preserve">
     <value>E-SHOP</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Generating_new_token" xml:space="preserve">
     <value>Generujem nový token...</value>
-    <comment>extended splash</comment>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Gifts/Text" xml:space="preserve">
     <value>AKCIE A SÚŤAŽE</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Invoice" xml:space="preserve">
     <value>faktúra</value>
+    <comment>Overview.xaml</comment>
   </data>
   <data name="Invoices/Text" xml:space="preserve">
     <value>FAKTÚRY</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Načítavam...</value>
-    <comment>extended splash</comment>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Logging_in" xml:space="preserve">
     <value>Prihlasujem...</value>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Login_success" xml:space="preserve">
     <value>Prihlásenie úspešné!</value>
-    <comment>extended splash</comment>
+    <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Magenta1/Text" xml:space="preserve">
     <value>MAGENTA 1 SKUPINA</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Overview/Text" xml:space="preserve">
     <value>PREHĽAD</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Profile/Text" xml:space="preserve">
     <value>PROFIL</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="Settings/Text" xml:space="preserve">
     <value>NASTAVENIA</value>
+    <comment>AppShell.xaml</comment>
   </data>
   <data name="setup_pin/Text" xml:space="preserve">
     <value>PRIHLÁSENIE</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_pin_block1.Text" xml:space="preserve">
     <value>Zadajte vaše telefónne číslo, s ktorým sa prihlásite do aplikácie.</value>
-    <comment>setup pin</comment>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_pin_block2.Text" xml:space="preserve">
     <value>Na vaše telefónne číslo pošleme prihlasovací kód cez SMS.</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_pin_box.PlaceholderText" xml:space="preserve">
     <value>Telefónne číslo (napr. 0903903903)</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_pin_button.Content" xml:space="preserve">
     <value>Poslať kód</value>
+    <comment>Setup_pin.xaml</comment>
   </data>
   <data name="setup_verif/Text" xml:space="preserve">
     <value>VERIFIKÁCIA</value>
+    <comment>Setup_verif.xaml</comment>
   </data>
   <data name="setup_verif_block.Text" xml:space="preserve">
     <value>Zadajte prihlasovací kód ktorý sme vám poslali na telefónne číslo.</value>
+    <comment>Setup_verif.xaml</comment>
   </data>
   <data name="setup_verif_box.PlaceholderText" xml:space="preserve">
     <value>Prihlasovcí kód</value>
+    <comment>Setup_verif.xaml</comment>
   </data>
   <data name="setup_verif_button.Content" xml:space="preserve">
     <value>Overiť</value>
+    <comment>Setup_verif.xaml</comment>
+  </data>
+  <data name="error_reason_any/Text" xml:space="preserve">
+    <value>Niečo sa pokazilo. Skúste to znova neskôr.</value>
+    <comment>Error.xaml</comment>
+  </data>
+  <data name="error_reason_nointernet/Text" xml:space="preserve">
+    <value>Skontrolujte či máte zapnutú Wi-Fi alebo mobilné dáta.
+
+Skúste či ide pristupovať na webstránky z iného zariadenia cez Wi-Fi alebo mobilné dáta. Keď nie, reštartujte modem, router alebo zariadenie a pripojte sa ešte raz.
+
+Keď používate káblové pripojenie Ethernet, skontrolujte či máte správne zapojená kábel do vášho zariadenia.
+
+Ak ste už spravili možnosti vyššie uvedené a stále máte problémy, stlačte Skúsiť znovu alebo zavrite aplikáciu.</value>
+    <comment>Error.xaml</comment>
+  </data>
+  <data name="error_close.Content" xml:space="preserve">
+    <value>Zavrieť</value>
+    <comment>Error.xaml</comment>
   </data>
 </root>
