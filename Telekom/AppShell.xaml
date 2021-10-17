@@ -41,16 +41,10 @@
                 <CommandBar OverflowButtonVisibility="Collapsed" Height="48" x:Name="commandBar">
                     <AppBarButton x:FieldModifier="public" Icon="Refresh" Width="48" Click="AppBarButton_Click" x:Name="commandBarRefresh"/>
                     <CommandBar.Content>
-                        <TextBlock x:Name="commandBarHeader"
-                       Foreground="{ThemeResource BarFGColor}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center" Text="appshell" x:Uid="Overview"
-                       FontSize="15" FontWeight="SemiBold" Margin="10,13,0,2" />
+                        <TextBlock x:Name="commandBarHeader" Foreground="{ThemeResource BarFGColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Text="appshell" FontSize="15" FontWeight="SemiBold" Margin="10,13,0,2" />
                     </CommandBar.Content>
                 </CommandBar>
-                <Frame x:Name="frame"
-                   Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SizeChanged="Frame_SizeChanged">
-
+                <Frame x:Name="frame" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SizeChanged="Frame_SizeChanged">
                     <Frame.ContentTransitions>
                         <TransitionCollection>
                             <NavigationThemeTransition>

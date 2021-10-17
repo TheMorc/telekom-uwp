@@ -134,7 +134,7 @@
     <comment>Error.xaml</comment>
   </data>
   <data name="Eshop/Text" xml:space="preserve">
-    <value>E-SHOP</value>
+    <value>E-shop</value>
     <comment>AppShell.xaml</comment>
   </data>
   <data name="Generating_new_token" xml:space="preserve">
@@ -142,7 +142,7 @@
     <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Gifts/Text" xml:space="preserve">
-    <value>GIFTS</value>
+    <value>Gifts</value>
     <comment>AppShell.xaml</comment>
   </data>
   <data name="Invoice" xml:space="preserve">
@@ -150,7 +150,7 @@
     <comment>Overview.xaml</comment>
   </data>
   <data name="Invoices/Text" xml:space="preserve">
-    <value>INVOICES</value>
+    <value>Invoices</value>
     <comment>AppShell.xaml</comment>
   </data>
   <data name="Loading" xml:space="preserve">
@@ -166,19 +166,19 @@
     <comment>ExtendedSplash.xaml</comment>
   </data>
   <data name="Magenta1/Text" xml:space="preserve">
-    <value>MAGENTA 1 GROUP</value>
+    <value>Magenta 1 Group</value>
     <comment>AppShell.xaml</comment>
   </data>
   <data name="Overview/Text" xml:space="preserve">
-    <value>OVERVIEW</value>
+    <value>Overview</value>
     <comment>AppShell.xaml</comment>
   </data>
   <data name="Profile/Text" xml:space="preserve">
-    <value>PROFILE</value>
+    <value>Profile</value>
     <comment>AppShell.xaml</comment>
   </data>
   <data name="Settings/Text" xml:space="preserve">
-    <value>SETTINGS</value>
+    <value>Settings</value>
     <comment>AppShell.xaml</comment>
   </data>
   <data name="setup_pin/Text" xml:space="preserve">

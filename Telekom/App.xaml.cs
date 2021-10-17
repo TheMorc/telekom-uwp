@@ -14,6 +14,7 @@ namespace Telekom
         public static double frameHeight { get; set; }
         public static ResourceLoader resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
         public static Telekom TLKM = new Telekom();
+        public static string commandBarText { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code

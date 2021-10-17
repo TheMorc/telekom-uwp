@@ -23,7 +23,7 @@ namespace Telekom
 
         public ExtendedSplash(SplashScreen splashscreen, bool loadState)
         {
-            if (loadState)
+            if (loadState) // still no clue what this does
             {
                 Debug.WriteLine("[tlkm_extendedsplash] loadState true");
             }
@@ -31,23 +31,16 @@ namespace Telekom
             InitializeComponent();
 
             Window.Current.SizeChanged += new WindowSizeChangedEventHandler(ExtendedSplash_OnResize);
-
             ScaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-
             splash = splashscreen;
 
             if (splash != null)
             {
-                // Register an event handler to be executed when the splash screen has been dismissed.
                 splash.Dismissed += new TypedEventHandler<SplashScreen, object>(DismissedEventHandler);
-
-                // Retrieve the window coordinates of the splash screen image.
                 splashImageRect = splash.ImageLocation;
                 PositionImage();
             }
 
-
-            // Create a Frame to act as the navigation context
             rootFrame = new Frame();
 
             Telekom();

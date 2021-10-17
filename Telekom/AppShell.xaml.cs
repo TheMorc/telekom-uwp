@@ -15,6 +15,8 @@ namespace Telekom
             hamburgerMenuControl.ItemsSource = MenuItem.GetMainItems();
             hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems();
 
+            App.commandBarText = "OVERVIEW";
+            commandBarHeader.Text = App.commandBarText;
             frame.Navigate(typeof(Overview));
             commandBarRefresh.Visibility = App.commandBarRefreshVisible;
             hamburgerMenuControl.SelectedIndex = 0;
@@ -23,19 +25,18 @@ namespace Telekom
         private void OnMenuItemClick(object sender, ItemClickEventArgs e)
         {
             MenuItem menuItem = e.ClickedItem as MenuItem;
-            if (menuItem.PageType != frame.CurrentSourcePageType)
+            if (menuItem.Name.ToUpper() != App.commandBarText)
             {
+                App.commandBarText = menuItem.Name.ToUpper();
+                commandBarHeader.Text = App.commandBarText;
                 frame.Navigate(menuItem.PageType);
                 commandBarRefresh.Visibility = App.commandBarRefreshVisible;
-                commandBarHeader.Text = App.resourceLoader.GetString(frame.CurrentSourcePageType.ToString().Replace("Telekom.Views.", "") + "/Text");
             }
         }
 
         private void AppBarButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             frame.Navigate(frame.CurrentSourcePageType);
-            commandBarRefresh.Visibility = App.commandBarRefreshVisible;
-            commandBarHeader.Text = App.resourceLoader.GetString(frame.CurrentSourcePageType.ToString().Replace("Telekom.Views.", "") + "/Text");
         }
 
         private void Frame_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
@@ -54,12 +55,12 @@ namespace Telekom
         {
             List<MenuItem> items = new List<MenuItem>
             {
-                new MenuItem() { Icon = Symbol.Home, Name = App.resourceLoader.GetString("Overview/Text").Substring(0,1) + App.resourceLoader.GetString("Overview/Text").Substring(1).ToLower(), PageType = typeof(Overview) },
-                new MenuItem() { Icon = Symbol.ProtectedDocument, Name = App.resourceLoader.GetString("Invoices/Text").Substring(0,1) + App.resourceLoader.GetString("Invoices/Text").Substring(1).ToLower(), PageType = typeof(Invoices) },
-                new MenuItem() { Icon = Symbol.Contact2, Name = App.resourceLoader.GetString("Profile/Text").Substring(0,1) + App.resourceLoader.GetString("Profile/Text").Substring(1).ToLower(), PageType = typeof(Profile) },
-                new MenuItem() { Icon = (Symbol)59327, Name = App.resourceLoader.GetString("Eshop/Text").Substring(0,1) + App.resourceLoader.GetString("Eshop/Text").Substring(1).ToLower(), PageType = typeof(Eshop) },
-                new MenuItem() { Icon = Symbol.Shop, Name = App.resourceLoader.GetString("Gifts/Text").Substring(0,1) + App.resourceLoader.GetString("Gifts/Text").Substring(1).ToLower(), PageType = typeof(Gifts) },
-                new MenuItem() { Icon = (Symbol)61766, Name = App.resourceLoader.GetString("Magenta1/Text").Substring(0,1) + App.resourceLoader.GetString("Magenta1/Text").Substring(1).ToLower(), PageType = typeof(Magenta1) }
+                new MenuItem() { Icon = Symbol.Home, Name = App.resourceLoader.GetString("Overview/Text"), PageType = typeof(Overview) },
+                new MenuItem() { Icon = Symbol.ProtectedDocument, Name = App.resourceLoader.GetString("Invoices/Text"), PageType = typeof(Invoices) },
+                new MenuItem() { Icon = Symbol.Contact2, Name = App.resourceLoader.GetString("Profile/Text"), PageType = typeof(Profile) },
+                new MenuItem() { Icon = (Symbol)59327, Name = App.resourceLoader.GetString("Eshop/Text"), PageType = typeof(Views.WebView) },
+                new MenuItem() { Icon = Symbol.Shop, Name = App.resourceLoader.GetString("Gifts/Text"), PageType = typeof(Views.WebView) },
+                new MenuItem() { Icon = (Symbol)61766, Name = App.resourceLoader.GetString("Magenta1/Text"), PageType = typeof(Views.WebView) }
             };
             return items;
         }
@@ -68,7 +69,7 @@ namespace Telekom
         {
             List<MenuItem> items = new List<MenuItem>
             {
-                new MenuItem() { Icon = Symbol.Setting, Name = App.resourceLoader.GetString("Settings/Text").Substring(0,1) + App.resourceLoader.GetString("Settings/Text").Substring(1).ToLower(), PageType = typeof(Settings) }
+                new MenuItem() { Icon = Symbol.Setting, Name = App.resourceLoader.GetString("Settings/Text"), PageType = typeof(Settings) }
             };
             return items;
         }
