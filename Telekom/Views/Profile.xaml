@@ -14,6 +14,7 @@
             <TextBox TextWrapping="Wrap" PlaceholderText="Priezvisko" Name="lastName"/>
             <TextBox TextWrapping="Wrap" PlaceholderText="Prihlasovacie meno účtu Môj Telekom" Name="telekom_username" IsEnabled="False"/>
             <TextBox TextWrapping="Wrap" PlaceholderText="Kontaktné telefónne číslo" InputScope="TelephoneNumber" Name="contactTelephoneNumber"/>
+            <TextBox TextWrapping="Wrap" PlaceholderText="Emailová adresa" InputScope="EmailNameOrAddress" Name="emailAddress"/>
 
             <Button Content="Uložiť zmeny" Click="Button_Click"/>
         </StackPanel>

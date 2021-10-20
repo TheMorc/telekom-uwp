@@ -13,11 +13,13 @@ namespace Telekom.Views
 
         private void Load_Profile()
         {
-            simLabel.Text = App.TLKM.productLabel;
-            firstName.Text = App.TLKM.givenName;
-            lastName.Text = App.TLKM.familyName;
+            simLabel.Text = App.TLKM.login.ManageableAssets[0].Label;
+            firstName.Text = App.TLKM.login.Individual.GivenName;
+            lastName.Text = App.TLKM.login.Individual.FamilyName;
             contactTelephoneNumber.Text = "+" + App.TLKM.serviceId.ToString();
-            telekom_username.Text = App.TLKM.telekom_username;
+            telekom_username.Text = App.TLKM.login.Characteristics[0].Value;
+            emailAddress.Text = App.TLKM.login.ContactMediums[1].Medium.EmailAddress;
+
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

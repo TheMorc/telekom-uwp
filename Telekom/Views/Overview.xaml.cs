@@ -14,11 +14,11 @@ namespace Telekom.Views
 
         private async void Load_Dashboard()
         {
-            bool dash_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Dashboard());
-            if (dash_success)
+            bool prodreport_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.ProductReport());
+            if (prodreport_success)
             {
-                simName.Text = App.TLKM.productLabel + " - " + App.TLKM.productName;
-                simData.Text = App.TLKM.remainingGB + "/" + App.TLKM.maxGB + "GB";
+                simName.Text = App.TLKM.prodRep.Label + " - " + App.TLKM.prodRep.Description;
+                simData.Text = App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "/" + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + "GB";
                 App.TLKM.Update_LiveTile();
             }
             else
@@ -28,21 +28,17 @@ namespace Telekom.Views
             bool unpaidbills_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Unpaid_Bills());
             if (unpaidbills_success)
             {
-                ubill_count.Text = App.TLKM.unpaidBillsCount + " " + App.resourceLoader.GetString("Invoice");
-                ubill_amount.Text = App.TLKM.unpaidBillsAmount + " " + App.TLKM.unpaidBillsCurrency;
+                if (App.TLKM.unpaidBills.Count.Value != 0)
+                {
+                    ubill_count.Text = App.TLKM.unpaidBills.Count.Value + " " + App.resourceLoader.GetString("Invoice");
+                    ubill_amount.Text = App.TLKM.unpaidBills.Cost.Amount + " " + App.TLKM.unpaidBills.Cost.CurrencyCode;
+                }
             }
             else
             {
                 await App.TLKM.ShowError();
             }
-            bool prodreport_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.ProductReport());
-            if (prodreport_success)
-            {
-            }
-            else
-            {
-                await App.TLKM.ShowError();
-            }
+
         }
     }
 }

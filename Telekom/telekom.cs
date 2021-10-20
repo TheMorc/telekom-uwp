@@ -1,8 +1,8 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -21,18 +21,14 @@ namespace Telekom
         private string nonce = "";
         public string accessToken = "";
         public string refreshToken = "";
-        public string productId = "";
-        public string productLabel = "";
-        public string productName = "";
-        public string fullName, givenName, familyName = "";
-        public double maxGB, remainingGB = 0;
+        public string fullName = "";
         public long serviceId = 0;
         public string lastError = "";
         public string lastCode = "";
-        public int unpaidBillsCount = 0;
-        public string unpaidBillsCurrency = "";
-        public double unpaidBillsAmount = 0;
-        public string telekom_username = "";
+
+        public JSON_.ProductReport prodRep = null;
+        public JSON_.UnpaidBills unpaidBills = null;
+        public JSON_.Login login = null;
         internal static HttpClient httpClient = new HttpClient();
 
         public async Task ShowError()
@@ -47,8 +43,8 @@ namespace Telekom
 
         public bool Update_LiveTile()
         {
-            string from = productLabel;
-            string subject = remainingGB + "/" + maxGB + "GB";
+            string from = prodRep.Label;
+            string subject = prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "/" + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + "GB"; //assuming that data is first on the list..
 
 
             TileContent content = new TileContent()
@@ -109,7 +105,7 @@ namespace Telekom
 
         public async Task<bool> ProductReport()
         {
-            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/manageServices/product/" + productId + "/details?checkCancelEligibility=false&devicesWithEMI=false&disableDocumentManagement=true&enableExtraData=false&enableFreeUnit=true&enableVasCategories=false&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&subscriptionServiceEnabled=false&swapEnabled=false&tariffOfferEnable=true&transferUnitsEnabled=false&vasDelay=true"))
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/manageServices/product/" + login.ManageableAssets[0].Id + "/details?checkCancelEligibility=false&devicesWithEMI=false&disableDocumentManagement=true&enableExtraData=false&enableFreeUnit=true&enableVasCategories=false&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&subscriptionServiceEnabled=false&swapEnabled=false&tariffOfferEnable=true&transferUnitsEnabled=false&vasDelay=true"))
             {
                 request.Headers.TryAddWithoutValidation("Accept", "*/*");
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
@@ -128,16 +124,18 @@ namespace Telekom
                     return false;
                 }
 
-                Debug.WriteLine("[tlkm_main - productreport] ");
-                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+                prodRep = JsonConvert.DeserializeObject<JSON_.ProductReport>(response.Content.ReadAsStringAsync().Result); //populating the public prodRep variable with valuable items!
+                Debug.WriteLine("[tlkm_main - productreport] " + prodRep.Label + " - max: " + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + "GB remaining: " + prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "GB");
 
                 return true;
             }
         }
 
+        //i don't think i'll ever use dashboard again since productreport includes all information
+        //but i'll leave it here
         public async Task<bool> Dashboard()
         {
-            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/dashboard/product/" + productId + "?enableFreeUnit=true&priority=primary&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&showTotalCreditBalance=true&showUnlimited=true"))
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/dashboard/product/" + login.ManageableAssets[0].Id + "?enableFreeUnit=true&priority=primary&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&showTotalCreditBalance=true&showUnlimited=true"))
             {
                 request.Headers.TryAddWithoutValidation("Accept", "*/*");
                 request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
@@ -156,10 +154,10 @@ namespace Telekom
                     return false;
                 }
 
-                productName = json.campaignPlanDetail.name;
+                /*productName = json.campaignPlanDetail.name;
                 maxGB = json.consumption.max.value;
                 remainingGB = json.consumption.remaining.value;
-                Debug.WriteLine("[tlkm_main - dashboard] " + productName + " - max: " + maxGB + "GB remaining: " + remainingGB + "GB");
+                Debug.WriteLine("[tlkm_main - dashboard] " + productName + " - max: " + maxGB + "GB remaining: " + remainingGB + "GB");*/
 
                 return true;
             }
@@ -186,10 +184,10 @@ namespace Telekom
                     return false;
                 }
 
-                unpaidBillsAmount = json.cost.amount;
-                unpaidBillsCount = json.count;
-                unpaidBillsCurrency = json.cost.currencyCode;
-                Debug.WriteLine("[tlkm_main - unpaid_bills] count:" + unpaidBillsCount + " - amount: " + unpaidBillsAmount + unpaidBillsCurrency);
+                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
+
+                unpaidBills = JsonConvert.DeserializeObject<JSON_.UnpaidBills>(response.Content.ReadAsStringAsync().Result);
+                Debug.WriteLine("[tlkm_main - unpaid_bills] count:" + unpaidBills.Count.Value + " - amount: " + unpaidBills.Cost.Amount.Value + unpaidBills.Cost.CurrencyCode);
 
                 return true;
             }
@@ -197,7 +195,7 @@ namespace Telekom
 
         public async Task<bool> PatchProfile(string simLabel, string firstName, string lastName, string contactTel)
         {
-            if (productLabel != simLabel)
+            /*if (productLabel != simLabel)
             {
 
             }
@@ -211,7 +209,7 @@ namespace Telekom
             if (serviceId != long.Parse(contactTel.Remove(0, 1)))
             {
 
-            }
+            }*/
 
             // TODO: implement PATCH
 
@@ -244,13 +242,13 @@ namespace Telekom
                     return false;
                 }
 
-                Debug.WriteLine("[tlkm_main - regen_token] saving accessToken");
                 accessToken = json.accessToken;
                 App.TLKM.localSettings.Values["accessToken"] = accessToken;
-
-                Debug.WriteLine("[tlkm_main - regen_token] saving refreshToken");
                 refreshToken = json.refreshToken;
                 App.TLKM.localSettings.Values["refreshToken"] = refreshToken;
+
+                Debug.WriteLine("[tlkm_main - regen_token] accessToken " + accessToken);
+                Debug.WriteLine("[tlkm_main - regen_token] refreshToken " + refreshToken);
 
                 return true;
             }
@@ -258,11 +256,7 @@ namespace Telekom
 
         public async Task<bool> Login()
         {
-            //this function is not invoked until the variables are not populated
-            //this should not happen in any other order.
-
-
-            Debug.WriteLine("[tlkm_main - login] input number" + serviceId);
+            Debug.WriteLine("[tlkm_main - login] input number " + serviceId);
 
             using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/profiles/?deviceId=" + deviceId + "&devicesWithEMI=false&genCenToken=true&hybridEnabled=true&loyaltyEnabled=false&sub=MSISDN_" + serviceId + "&subscriptionServiceEnabled=false"))
             {
@@ -285,17 +279,12 @@ namespace Telekom
                 }
 
                 string semiParsedJson = response.Content.ReadAsStringAsync().Result;
-
                 if (semiParsedJson.StartsWith("["))
                 {
                     semiParsedJson = response.Content.ReadAsStringAsync().Result.Remove(0, 2).Remove(response.Content.ReadAsStringAsync().Result.Length - 3, 1);
                 }
 
                 dynamic json = JObject.Parse(semiParsedJson);
-                JObject jobj = JObject.Parse(semiParsedJson);
-
-                // TODO: implement a better json parser, this method sucks quite a bit
-
                 if (json.errorType != null)
                 {
                     string errorMessage = "[tlkm_main - login] " + json.message + " " + json.code;
@@ -305,43 +294,14 @@ namespace Telekom
                     return false;
                 }
 
-                System.Collections.Generic.IEnumerable<string> product = from p in jobj["manageableAssets"] select (string)p["id"];
-                foreach (string item in product)
-                {
-                    Debug.WriteLine("[tlkm_main - login] productId: " + item);
-                    productId = item;
-                }
+                login = JsonConvert.DeserializeObject<JSON_.Login>(semiParsedJson);
+                Debug.WriteLine("[tlkm_main - login] productId: " + login.ManageableAssets[0].Id);
+                Debug.WriteLine("[tlkm_main - login] productLabel: " + login.ManageableAssets[0].Label);
+                Debug.WriteLine("[tlkm_main - login] telekom_username: " + login.Characteristics[0].Value);
+                Debug.WriteLine("[tlkm_main - login] emailAddress: " + login.ContactMediums[1].Medium.EmailAddress);
 
-                System.Collections.Generic.IEnumerable<string> label = from p in jobj["manageableAssets"] select (string)p["label"];
-                foreach (string item in label)
-                {
-                    Debug.WriteLine("[tlkm_main - login] productLabel: " + item);
-                    productLabel = item;
-                }
 
-                System.Collections.Generic.IEnumerable<string> username = from p in jobj["characteristics"] select (string)p["value"];
-                foreach (string item in username)
-                {
-                    if (item == "B2C")
-                    {
-                        break;
-                    }
-
-                    Debug.WriteLine("[tlkm_main - login] telekom_username: " + item);
-                    telekom_username = item;
-                }
-
-                // TODO: parse email
-                //System.Collections.Generic.IEnumerable<string> contactMediums_email = from p in jobj["contactMediums"] select (string)p["medium"];
-                //foreach (string item in contactMediums_email)
-                //{
-                //  Debug.WriteLine("[tlkm_main - login] email: " + item);
-                //email = item;
-                //}
-
-                fullName = json.individual.givenName + " " + json.individual.familyName;
-                givenName = json.individual.givenName;
-                familyName = json.individual.familyName;
+                fullName = login.Individual.GivenName + " " + login.Individual.FamilyName;
                 Debug.WriteLine("[tlkm_main - login] fullName: " + fullName);
 
                 return true;
@@ -406,23 +366,19 @@ namespace Telekom
                     return false;
                 }
 
-                Debug.WriteLine("[tlkm_main - verif] saving deviceId");
                 App.TLKM.localSettings.Values["deviceId"] = deviceId;
-
-                Debug.WriteLine("[tlkm_main - verif] saving accessToken");
                 accessToken = json.accessToken;
                 App.TLKM.localSettings.Values["accessToken"] = accessToken;
-
-                Debug.WriteLine("[tlkm_main - verif] saving refreshToken");
                 refreshToken = json.refreshToken;
                 App.TLKM.localSettings.Values["refreshToken"] = refreshToken;
-
-                Debug.WriteLine("[tlkm_main - verif] saving serviceId");
                 App.TLKM.localSettings.Values["serviceId"] = serviceId;
-
-                Debug.WriteLine("[tlkm_main - verif] saving hasAccount");
                 App.TLKM.localSettings.Values["hasAccount"] = "yes";
 
+                Debug.WriteLine("[tlkm_main - verif] deviceId " + deviceId);
+                Debug.WriteLine("[tlkm_main - verif] accessToken " + accessToken);
+                Debug.WriteLine("[tlkm_main - verif] refreshToken " + refreshToken);
+                Debug.WriteLine("[tlkm_main - verif] serviceId " + serviceId);
+                Debug.WriteLine("[tlkm_main - verif] hasAccount yes");
 
                 return true;
             }

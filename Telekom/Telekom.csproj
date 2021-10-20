@@ -135,6 +135,7 @@
     <Compile Include="ExtendedSplash.xaml.cs">
       <DependentUpon>ExtendedSplash.xaml</DependentUpon>
     </Compile>
+    <Compile Include="json.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\WebView.xaml.cs">
       <DependentUpon>WebView.xaml</DependentUpon>
