@@ -235,4 +235,38 @@ If you're using a wired Ethernet connection, make sure the cable is securely plu
 If you already did any of the above and you still have problems, click Try again or close the app.</value>
     <comment>Error.xaml</comment>
   </data>
+  <data name="profile_contTelNum.PlaceholderText" xml:space="preserve">
+    <value>Contact telephone number</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_emailAddress.PlaceholderText" xml:space="preserve">
+    <value>Email address</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_firstName.PlaceholderText" xml:space="preserve">
+    <value>First name</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_lastName.PlaceholderText" xml:space="preserve">
+    <value>Last name</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_saveChanges.Content" xml:space="preserve">
+    <value>Save changes</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_username.PlaceholderText" xml:space="preserve">
+    <value>Telekom username</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_simLabel.PlaceholderText" xml:space="preserve">
+    <value>Custom SIM label</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="Profile/NoChanges" xml:space="preserve">
+    <value>No changes have been made.</value>
+  </data>
+  <data name="Profile/Success" xml:space="preserve">
+    <value>Changes saved successfully!</value>
+  </data>
 </root>

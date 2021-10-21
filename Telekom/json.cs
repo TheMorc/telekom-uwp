@@ -353,5 +353,21 @@ namespace Telekom
             public string Name { get; set; }
         }
         #endregion
+
+        #region PatchProfile
+        public partial class PatchProfileResult
+        {
+            [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+            public string Status { get; set; }
+
+            [JsonProperty("detailedStatus", NullValueHandling = NullValueHandling.Ignore)]
+            public string DetailedStatus { get; set; }
+        }
+        public partial class PatchSIMResult
+        {
+            [JsonProperty("label", NullValueHandling = NullValueHandling.Ignore)]
+            public string Label { get; set; }
+        }
+        #endregion
     }
 }

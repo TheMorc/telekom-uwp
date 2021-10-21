@@ -24,10 +24,27 @@ namespace Telekom.Views
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            bool patch_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.PatchProfile(simLabel.Text, firstName.Text, lastName.Text, contactTelephoneNumber.Text));
-            if (!patch_success)
+            string tempSimLabel = simLabel.Text;
+            string tempFirstName = firstName.Text;
+            string tempLastName = lastName.Text;
+            string tempContactTelephoneNumber = contactTelephoneNumber.Text;
+            string tempEmailAddress = emailAddress.Text;
+
+            bool patch_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.PatchProfile(tempSimLabel, tempFirstName, tempLastName, tempContactTelephoneNumber, tempEmailAddress));
+            if (patch_success)
             {
-                await App.TLKM.ShowError();
+                App.TLKM.lastError = App.resourceLoader.GetString("Profile/Success");
+                await App.TLKM.ShowMessage();
+                App.TLKM.login.ContactMediums[1].Medium.EmailAddress = tempEmailAddress;
+                App.TLKM.prodRep.Label = tempSimLabel;
+                App.TLKM.login.Individual.GivenName = tempFirstName;
+                App.TLKM.login.Individual.FamilyName = tempLastName;
+                App.TLKM.serviceId = long.Parse(tempContactTelephoneNumber.Remove(0, 1));
+
+            }
+            else
+            {
+                await App.TLKM.ShowMessage();
             }
         }
     }

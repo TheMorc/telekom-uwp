@@ -9,14 +9,14 @@
 
     <Grid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox TextWrapping="Wrap" PlaceholderText="SIM" Name="simLabel"/>
-            <TextBox TextWrapping="Wrap" PlaceholderText="Krstné meno" Name="firstName"/>
-            <TextBox TextWrapping="Wrap" PlaceholderText="Priezvisko" Name="lastName"/>
-            <TextBox TextWrapping="Wrap" PlaceholderText="Prihlasovacie meno účtu Môj Telekom" Name="telekom_username" IsEnabled="False"/>
-            <TextBox TextWrapping="Wrap" PlaceholderText="Kontaktné telefónne číslo" InputScope="TelephoneNumber" Name="contactTelephoneNumber"/>
-            <TextBox TextWrapping="Wrap" PlaceholderText="Emailová adresa" InputScope="EmailNameOrAddress" Name="emailAddress"/>
+            <TextBox TextWrapping="Wrap" x:Uid="profile_simLabel" PlaceholderText="Custom SIM label" Name="simLabel" Margin="0,0,0,5"/>
+            <TextBox TextWrapping="Wrap" x:Uid="profile_firstName" PlaceholderText="Krstné meno" Name="firstName" Margin="0,0,0,5"/>
+            <TextBox TextWrapping="Wrap" x:Uid="profile_lastName" PlaceholderText="Priezvisko" Name="lastName" Margin="0,0,0,5"/>
+            <TextBox TextWrapping="Wrap" x:Uid="profile_username" PlaceholderText="Prihlasovacie meno účtu Môj Telekom" Name="telekom_username" IsEnabled="False" Margin="0,0,0,5"/>
+            <TextBox TextWrapping="Wrap" x:Uid="profile_contTelNum" PlaceholderText="Kontaktné telefónne číslo" InputScope="TelephoneNumber" Name="contactTelephoneNumber" Margin="0,0,0,5"/>
+            <TextBox TextWrapping="Wrap" x:Uid="profile_emailAddress" PlaceholderText="Emailová adresa" InputScope="EmailNameOrAddress" Name="emailAddress" Margin="0,0,0,15"/>
 
-            <Button Content="Uložiť zmeny" Click="Button_Click"/>
+            <Button Content="Uložiť zmeny" x:Uid="profile_saveChanges" Click="Button_Click"/>
         </StackPanel>
     </Grid>
 </Page>

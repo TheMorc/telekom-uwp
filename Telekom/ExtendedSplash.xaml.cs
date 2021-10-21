@@ -101,8 +101,8 @@ namespace Telekom
 
             StatusText(App.resourceLoader.GetString("Loading"));
 
-            Debug.WriteLine("[tlkm_extendedsplash] 200ms wait"); //seems like that something has issues getting loaded as soon as the page is loaded
-            await System.Threading.Tasks.Task.Delay(200);
+            Debug.WriteLine("[tlkm_extendedsplash] 10ms wait"); //seems like that something has issues getting loaded as soon as the page is loaded
+            await System.Threading.Tasks.Task.Delay(10);
 
             Debug.WriteLine("[tlkm_extendedsplash] deviceId: " + App.TLKM.deviceId.ToString());
 
@@ -164,11 +164,6 @@ namespace Telekom
                             OpenErrorPage();
                             return;
                         }
-                    }
-                    else if (App.TLKM.lastCode == "nointernet")
-                    {
-                        OpenErrorPage();
-                        return;
                     }
                     else
                     {

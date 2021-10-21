@@ -235,4 +235,38 @@ Ak ste už spravili možnosti vyššie uvedené a stále máte problémy, stlač
     <value>Zavrieť</value>
     <comment>Error.xaml</comment>
   </data>
+  <data name="profile_contTelNum.PlaceholderText" xml:space="preserve">
+    <value>Kontaktné telefónne číslo</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_emailAddress.PlaceholderText" xml:space="preserve">
+    <value>Emailová adresa</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_firstName.PlaceholderText" xml:space="preserve">
+    <value>Krstné meno</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_lastName.PlaceholderText" xml:space="preserve">
+    <value>Priezvisko</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_saveChanges.Content" xml:space="preserve">
+    <value>Uložiť zmeny</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_username.PlaceholderText" xml:space="preserve">
+    <value>Prihlasovacie meno účtu Môj Telekom</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="profile_simLabel.PlaceholderText" xml:space="preserve">
+    <value>Vlastné meno SIM</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="Profile/NoChanges" xml:space="preserve">
+    <value>Neboli vykonané žiadne zmeny.</value>
+  </data>
+  <data name="Profile/Success" xml:space="preserve">
+    <value>Zmeny úspešne uložené!</value>
+  </data>
 </root>

@@ -42,12 +42,12 @@ namespace Telekom.Views
                 }
                 else
                 {
-                    await App.TLKM.ShowError();
+                    await App.TLKM.ShowMessage();
                 }
             }
             else
             {
-                await App.TLKM.ShowError();
+                await App.TLKM.ShowMessage();
             }
         }
 

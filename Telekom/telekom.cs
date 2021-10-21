@@ -29,16 +29,19 @@ namespace Telekom
         public JSON_.ProductReport prodRep = null;
         public JSON_.UnpaidBills unpaidBills = null;
         public JSON_.Login login = null;
+
         internal static HttpClient httpClient = new HttpClient();
 
-        public async Task ShowError()
+        public async Task ShowMessage()
         {
             MessageDialog messageDialog = new MessageDialog(App.TLKM.lastError + "\n" + App.TLKM.lastCode);
-            messageDialog.Commands.Add(new UICommand("Quit"));
+            messageDialog.Commands.Add(new UICommand("OK"));
             messageDialog.DefaultCommandIndex = 0;
             messageDialog.CancelCommandIndex = 0;
 
             await messageDialog.ShowAsync();
+            App.TLKM.lastCode = "";
+            App.TLKM.lastError = "";
         }
 
         public bool Update_LiveTile()
@@ -103,6 +106,7 @@ namespace Telekom
             return true;
         }
 
+        #region overview
         public async Task<bool> ProductReport()
         {
             using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/manageServices/product/" + login.ManageableAssets[0].Id + "/details?checkCancelEligibility=false&devicesWithEMI=false&disableDocumentManagement=true&enableExtraData=false&enableFreeUnit=true&enableVasCategories=false&profileId=MSISDN_" + serviceId + "&serviceOnboarding=false&serviceOutageEnabled=false&subscriptionServiceEnabled=false&swapEnabled=false&tariffOfferEnable=true&transferUnitsEnabled=false&vasDelay=true"))
@@ -184,39 +188,118 @@ namespace Telekom
                     return false;
                 }
 
-                Debug.WriteLine(response.Content.ReadAsStringAsync().Result);
-
                 unpaidBills = JsonConvert.DeserializeObject<JSON_.UnpaidBills>(response.Content.ReadAsStringAsync().Result);
                 Debug.WriteLine("[tlkm_main - unpaid_bills] count:" + unpaidBills.Count.Value + " - amount: " + unpaidBills.Cost.Amount.Value + unpaidBills.Cost.CurrencyCode);
 
                 return true;
             }
         }
+        #endregion
 
-        public async Task<bool> PatchProfile(string simLabel, string firstName, string lastName, string contactTel)
+
+        public async Task<bool> PatchProfile(string simLabel, string firstName, string lastName, string contactTel, string email)
         {
-            /*if (productLabel != simLabel)
+            string patchURL = "https://t-app.telekom.sk/profiles/MSISDN_" + serviceId + "?fields=";
+            string patchJSON = "{"; //i can't quite figure out how to serialize a json properly with arrays..
+
+            if (prodRep.Label != simLabel)
             {
+                string patchSIMLabel = "{\"label\": \"" + simLabel + "\"}";
+                using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), "https://t-app.telekom.sk/profiles/MSISDN_" + serviceId + "/manageableAssets/" + login.ManageableAssets[0].Id + "?fields=label"))
+                {
+                    request.Headers.TryAddWithoutValidation("Accept", "*/*");
+                    request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+                    request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "188C1694-71FC-4CA6-B013-579755690106");
+                    request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
+
+                    request.Content = new StringContent(patchSIMLabel);
+                    request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+                    HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                    dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+                    if (json.errorType != null)
+                    {
+                        string errorMessage = "[tlkm_main - patchsimlabel] " + json.message + " " + json.code;
+                        Debug.WriteLine(errorMessage);
+                        lastCode = json.code;
+                        lastError = json.message;
+                        return false;
+                    }
+
+                    JSON_.PatchSIMResult result = JsonConvert.DeserializeObject<JSON_.PatchSIMResult>(response.Content.ReadAsStringAsync().Result);
+                    if (result.Label == simLabel)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (login.Individual.GivenName != firstName || login.Individual.FamilyName != lastName)
+            {
+                patchURL = patchURL + "individual%2C";
+                patchJSON = patchJSON + "\"individual\": { \"givenName\": \"" + firstName + "\", \"familyName\": \"" + lastName + "\"},";
 
             }
-            if (givenName != firstName)
+            if (contactTel.Remove(0, 1) != serviceId.ToString() || login.ContactMediums[1].Medium.EmailAddress != email)
             {
-
+                patchURL = patchURL + "contactMediums%2C";
+                patchJSON = patchJSON + "\"contactMediums\": [{\"medium\": {\"number\": \"" + contactTel + "\"},\"role\": {\"name\": \"contact\"},\"type\": \"mobile\"},{\"medium\": {\"emailAddress\": \"" + email + "\"},\"role\": {\"name\": \"contact\"},\"type\": \"email\"}]";
             }
-            if (familyName != lastName)
+            if (patchJSON.EndsWith(","))
             {
+                patchJSON = patchJSON.Remove(patchJSON.Length - 1, 1) + "}";
             }
-            if (serviceId != long.Parse(contactTel.Remove(0, 1)))
+            else if (patchJSON.EndsWith("{"))
             {
+                App.TLKM.lastError = App.resourceLoader.GetString("Profile/NoChanges");
+                return false;
+            }
+            if (patchURL.EndsWith("%2C"))
+            {
+                patchURL = patchURL.Remove(patchURL.Length - 3, 3);
+            }
 
-            }*/
 
-            // TODO: implement PATCH
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), patchURL))
+            {
+                request.Headers.TryAddWithoutValidation("Accept", "*/*");
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+                request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "188C1694-71FC-4CA6-B013-579755690106");
+                request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
 
-            return false;
+                request.Content = new StringContent(patchJSON);
+                request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+                if (json.errorType != null)
+                {
+                    string errorMessage = "[tlkm_main - patchprofile] " + json.message + " " + json.code;
+                    Debug.WriteLine(errorMessage);
+                    lastCode = json.code;
+                    lastError = json.message;
+                    return false;
+                }
+
+                JSON_.PatchProfileResult result = JsonConvert.DeserializeObject<JSON_.PatchProfileResult>(response.Content.ReadAsStringAsync().Result);
+                if (result.Status == "validated")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
-        #region pin&verif and login + regen_token
+        #region setup_pin, setup_verif, extendedsplash
         public async Task<bool> Regen_token()
         {
 

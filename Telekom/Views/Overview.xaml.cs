@@ -23,7 +23,7 @@ namespace Telekom.Views
             }
             else
             {
-                await App.TLKM.ShowError();
+                await App.TLKM.ShowMessage();
             }
             bool unpaidbills_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Unpaid_Bills());
             if (unpaidbills_success)
@@ -36,7 +36,7 @@ namespace Telekom.Views
             }
             else
             {
-                await App.TLKM.ShowError();
+                await App.TLKM.ShowMessage();
             }
 
         }

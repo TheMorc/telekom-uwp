@@ -11,7 +11,7 @@ namespace Telekom.Views
 
         public Setup_pin()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += GoBack;
@@ -50,8 +50,9 @@ namespace Telekom.Views
                 Frame.Navigate(typeof(Setup_verif));
             }
             else
-                await App.TLKM.ShowError();
-
+            {
+                await App.TLKM.ShowMessage();
+            }
         }
     }
 }
