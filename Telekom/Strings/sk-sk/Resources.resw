@@ -265,8 +265,26 @@ Ak ste už spravili možnosti vyššie uvedené a stále máte problémy, stlač
   </data>
   <data name="Profile/NoChanges" xml:space="preserve">
     <value>Neboli vykonané žiadne zmeny.</value>
+    <comment>Profile.xaml</comment>
   </data>
   <data name="Profile/Success" xml:space="preserve">
     <value>Zmeny úspešne uložené!</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="bill_download_button.Content" xml:space="preserve">
+    <value>Stiahnuť faktúru</value>
+    <comment>InvoiceView.xaml</comment>
+  </data>
+  <data name="bill_id_text.Text" xml:space="preserve">
+    <value>Číslo faktúry</value>
+    <comment>InvoiceView.xaml</comment>
+  </data>
+  <data name="bill_receiver_text.Text" xml:space="preserve">
+    <value>Faktúra bola zaslaná:</value>
+    <comment>InvoiceView.xaml</comment>
+  </data>
+  <data name="Invoice_Details" xml:space="preserve">
+    <value>DETAILY FAKTÚRY ZA </value>
+    <comment>InvoiceView.xaml</comment>
   </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
 
 namespace Telekom.Views
 {
@@ -9,6 +10,10 @@ namespace Telekom.Views
         {
             InitializeComponent();
             App.commandBarRefreshVisible = Windows.UI.Xaml.Visibility.Visible;
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().BackRequested += null;
+
             Load_Dashboard();
         }
 

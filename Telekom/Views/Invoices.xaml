@@ -5,9 +5,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignWidth="540" d:DesignHeight="960">
+    d:DesignWidth="540" d:DesignHeight="960" SizeChanged="Page_SizeChanged">
 
     <Grid>
-
+        <ScrollViewer Name="ScrollViewer">
+            <ListView x:Name="InvoiceList" ItemClick="InvoiceList_ItemClick" IsItemClickEnabled="True" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,20,0,0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock FontSize="16">
+                            <Run Text="{Binding Month}"></Run>
+                            <Run>/</Run>
+                            <Run Text="{Binding Year}"></Run>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
     </Grid>
 </Page>

@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Name="page"
-    d:DesignWidth="540" d:DesignHeight="960" SizeChanged="Page_SizeChanged">
+    d:DesignWidth="540" d:DesignHeight="960" SizeChanged="Page_SizeChanged" LayoutUpdated="Page_LayoutUpdated">
 
     <Grid>
         <WebView Name="wview"/>

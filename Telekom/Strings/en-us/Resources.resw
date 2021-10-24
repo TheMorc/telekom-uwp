@@ -265,8 +265,26 @@ If you already did any of the above and you still have problems, click Try again
   </data>
   <data name="Profile/NoChanges" xml:space="preserve">
     <value>No changes have been made.</value>
+    <comment>Profile.xaml</comment>
   </data>
   <data name="Profile/Success" xml:space="preserve">
     <value>Changes saved successfully!</value>
+    <comment>Profile.xaml</comment>
+  </data>
+  <data name="bill_download_button.Content" xml:space="preserve">
+    <value>Download invoice</value>
+    <comment>InvoiceView.xaml</comment>
+  </data>
+  <data name="bill_id_text.Text" xml:space="preserve">
+    <value>Invoice ID:</value>
+    <comment>InvoiceView.xaml</comment>
+  </data>
+  <data name="bill_receiver_text.Text" xml:space="preserve">
+    <value>Invoice sent to:</value>
+    <comment>InvoiceView.xaml</comment>
+  </data>
+  <data name="Invoice_Details" xml:space="preserve">
+    <value>INVOICE DETAILS FOR </value>
+    <comment>InvoiceView.xaml</comment>
   </data>
 </root>

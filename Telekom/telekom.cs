@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -29,6 +30,8 @@ namespace Telekom
         public JSON_.ProductReport prodRep = null;
         public JSON_.UnpaidBills unpaidBills = null;
         public JSON_.Login login = null;
+
+        public List<JSON_.CustomerBills> customerBills = null;
 
         internal static HttpClient httpClient = new HttpClient();
 
@@ -196,7 +199,7 @@ namespace Telekom
         }
         #endregion
 
-
+        #region profile
         public async Task<bool> PatchProfile(string simLabel, string firstName, string lastName, string contactTel, string email)
         {
             string patchURL = "https://t-app.telekom.sk/profiles/MSISDN_" + serviceId + "?fields=";
@@ -298,6 +301,98 @@ namespace Telekom
                 }
             }
         }
+        #endregion
+
+        #region invoices
+        public async Task<List<JSON_.BillingMonths>> BillingMonths(int monthCount)
+        {
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/billingMonths?monthCount=" + monthCount))
+            {
+                request.Headers.TryAddWithoutValidation("Accept", "*/*");
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+                request.Headers.TryAddWithoutValidation("X-Client-Version", "18.8.2 (887) 2-78c3ec0 (HEAD)");
+                request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
+                request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
+
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                string semiParsedJson = response.Content.ReadAsStringAsync().Result;
+                if (!semiParsedJson.Contains("}, {"))
+                {
+                    dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+                    if (json.errorType != null)
+                    {
+                        string errorMessage = "[tlkm_main - billingmonths] " + json.message + " " + json.code;
+                        Debug.WriteLine(errorMessage);
+                        lastCode = json.code;
+                        lastError = json.message;
+                        return null;
+                    }
+                }
+
+                List<JSON_.BillingMonths> billMonths = JsonConvert.DeserializeObject<List<JSON_.BillingMonths>>(response.Content.ReadAsStringAsync().Result);
+                return billMonths;
+            }
+        }
+
+        public async Task<List<JSON_.CustomerBills>> CustomerBills(long? month, long? year)
+        {
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/customerBills/paid/" + year + "/" + month))
+            {
+                request.Headers.TryAddWithoutValidation("Accept", "*/*");
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+                request.Headers.TryAddWithoutValidation("X-Client-Version", "18.8.2 (887) 2-78c3ec0 (HEAD)");
+                request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
+                request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
+
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                string semiParsedJson = response.Content.ReadAsStringAsync().Result;
+                if (!semiParsedJson.StartsWith("["))
+                {
+                    dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+                    if (json.errorType != null)
+                    {
+                        string errorMessage = "[tlkm_main - customerbills] " + json.message + " " + json.code;
+                        Debug.WriteLine(errorMessage);
+                        lastCode = json.code;
+                        lastError = json.message;
+                        return null;
+                    }
+                }
+
+                List<JSON_.CustomerBills> custBills = JsonConvert.DeserializeObject<List<JSON_.CustomerBills>>(response.Content.ReadAsStringAsync().Result);
+                return custBills;
+            }
+        }
+
+        public async Task<JSON_.BillView> BillView(string id)
+        {
+            using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("GET"), "https://t-app.telekom.sk/customerBills/" + id))
+            {
+                request.Headers.TryAddWithoutValidation("Accept", "*/*");
+                request.Headers.TryAddWithoutValidation("Authorization", "Bearer " + accessToken);
+                request.Headers.TryAddWithoutValidation("X-Client-Version", "18.8.2 (887) 2-78c3ec0 (HEAD)");
+                request.Headers.TryAddWithoutValidation("X-Request-Session-Id", "FC4DF625-01D0-4ACC-A8E5-5260A3F9AC7F");
+                request.Headers.TryAddWithoutValidation("X-Request-Tracking-Id", "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
+
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                dynamic json = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+                if (json.errorType != null)
+                {
+                    string errorMessage = "[tlkm_main - billview] " + json.message + " " + json.code;
+                    Debug.WriteLine(errorMessage);
+                    lastCode = json.code;
+                    lastError = json.message;
+                    return null;
+                }
+
+                JSON_.BillView billView = JsonConvert.DeserializeObject<JSON_.BillView>(response.Content.ReadAsStringAsync().Result);
+                return billView;
+            }
+        }
+        #endregion
 
         #region setup_pin, setup_verif, extendedsplash
         public async Task<bool> Regen_token()

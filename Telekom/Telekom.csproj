@@ -137,6 +137,9 @@
     </Compile>
     <Compile Include="json.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\InvoiceView.xaml.cs">
+      <DependentUpon>InvoiceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WebView.xaml.cs">
       <DependentUpon>WebView.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,10 @@
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InvoiceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\WebView.xaml">
       <Generator>MSBuild:Compile</Generator>

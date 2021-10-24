@@ -10,8 +10,8 @@ namespace Telekom.Views
         public Error()
         {
             InitializeComponent();
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += GoBack;
 
             if (App.TLKM.lastCode == "nointernet")
@@ -43,7 +43,7 @@ namespace Telekom.Views
 
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             ExtendedSplash extendedSplash = new ExtendedSplash(App.TLKM.splashScreen, false);
             Window.Current.Content = extendedSplash;

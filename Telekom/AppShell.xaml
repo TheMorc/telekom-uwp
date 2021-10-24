@@ -44,7 +44,7 @@
                         <TextBlock x:Name="commandBarHeader" Foreground="{ThemeResource BarFGColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Text="appshell" FontSize="15" FontWeight="SemiBold" Margin="10,13,0,2" />
                     </CommandBar.Content>
                 </CommandBar>
-                <Frame x:Name="frame" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SizeChanged="Frame_SizeChanged">
+                <Frame x:Name="frame" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SizeChanged="Frame_SizeChanged" LayoutUpdated="Frame_LayoutUpdated">
                     <Frame.ContentTransitions>
                         <TransitionCollection>
                             <NavigationThemeTransition>

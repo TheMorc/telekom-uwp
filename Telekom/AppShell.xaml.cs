@@ -8,6 +8,8 @@ namespace Telekom
     public sealed partial class AppShell : Page
     {
 
+        private string lastcBText = "";
+
         public AppShell()
         {
             InitializeComponent();
@@ -15,7 +17,7 @@ namespace Telekom
             hamburgerMenuControl.ItemsSource = MenuItem.GetMainItems();
             hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems();
 
-            App.commandBarText = "OVERVIEW";
+            App.commandBarText = App.resourceLoader.GetString("Overview/Text").ToUpper();
             commandBarHeader.Text = App.commandBarText;
             frame.Navigate(typeof(Overview));
             commandBarRefresh.Visibility = App.commandBarRefreshVisible;
@@ -41,7 +43,16 @@ namespace Telekom
 
         private void Frame_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
-            App.frameHeight = Root.ActualHeight;
+            App.frameHeight = Root.ActualHeight - 50;
+        }
+
+        private void Frame_LayoutUpdated(object sender, object e)
+        {
+            if (lastcBText != App.commandBarText)
+            {
+                commandBarHeader.Text = App.commandBarText;
+            }
+            lastcBText = App.commandBarText;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
 
 namespace Telekom.Views
 {
@@ -8,18 +9,16 @@ namespace Telekom.Views
         {
             InitializeComponent();
             App.commandBarRefreshVisible = Windows.UI.Xaml.Visibility.Collapsed;
-            Load_Profile();
-        }
 
-        private void Load_Profile()
-        {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().BackRequested += null;
+
             simLabel.Text = App.TLKM.login.ManageableAssets[0].Label;
             firstName.Text = App.TLKM.login.Individual.GivenName;
             lastName.Text = App.TLKM.login.Individual.FamilyName;
             contactTelephoneNumber.Text = "+" + App.TLKM.serviceId.ToString();
             telekom_username.Text = App.TLKM.login.Characteristics[0].Value;
             emailAddress.Text = App.TLKM.login.ContactMediums[1].Medium.EmailAddress;
-
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -34,13 +33,13 @@ namespace Telekom.Views
             if (patch_success)
             {
                 App.TLKM.lastError = App.resourceLoader.GetString("Profile/Success");
+                App.TLKM.lastCode = "";
                 await App.TLKM.ShowMessage();
                 App.TLKM.login.ContactMediums[1].Medium.EmailAddress = tempEmailAddress;
                 App.TLKM.prodRep.Label = tempSimLabel;
                 App.TLKM.login.Individual.GivenName = tempFirstName;
                 App.TLKM.login.Individual.FamilyName = tempLastName;
                 App.TLKM.serviceId = long.Parse(tempContactTelephoneNumber.Remove(0, 1));
-
             }
             else
             {

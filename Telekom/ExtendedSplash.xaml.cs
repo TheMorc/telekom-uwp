@@ -23,11 +23,6 @@ namespace Telekom
 
         public ExtendedSplash(SplashScreen splashscreen, bool loadState)
         {
-            if (loadState) // still no clue what this does
-            {
-                Debug.WriteLine("[tlkm_extendedsplash] loadState true");
-            }
-
             InitializeComponent();
 
             Window.Current.SizeChanged += new WindowSizeChangedEventHandler(ExtendedSplash_OnResize);
@@ -141,6 +136,7 @@ namespace Telekom
                 {
                     if (App.TLKM.lastCode == "hal.security.authentication.access_token.invalid")
                     {
+                        App.TLKM.lastCode = "";
                         StatusText(App.resourceLoader.GetString("Generating_new_token"));
                         bool regen_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Regen_token());
                         if (regen_success)

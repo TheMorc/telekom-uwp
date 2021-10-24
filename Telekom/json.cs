@@ -205,47 +205,6 @@ namespace Telekom
         }
         #endregion
 
-        #region Unpaid Bills
-        public partial class UnpaidBills
-        {
-            [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
-            public long? Count { get; set; }
-
-            [JsonProperty("cost", NullValueHandling = NullValueHandling.Ignore)]
-            public Cost Cost { get; set; }
-
-            [JsonProperty("bills", NullValueHandling = NullValueHandling.Ignore)]
-            public Bill[] Bills { get; set; }
-        }
-
-        public partial class Bill
-        {
-            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
-            public string Id { get; set; }
-
-            [JsonProperty("paymentDueDate", NullValueHandling = NullValueHandling.Ignore)]
-            public DateTimeOffset? PaymentDueDate { get; set; }
-
-            [JsonProperty("billingAccount", NullValueHandling = NullValueHandling.Ignore)]
-            public BillingAccount BillingAccount { get; set; }
-        }
-
-        public partial class BillingAccount
-        {
-            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
-            public string Id { get; set; }
-        }
-
-        public partial class Cost
-        {
-            [JsonProperty("currencyCode", NullValueHandling = NullValueHandling.Ignore)]
-            public string CurrencyCode { get; set; }
-
-            [JsonProperty("amount", NullValueHandling = NullValueHandling.Ignore)]
-            public double? Amount { get; set; }
-        }
-        #endregion
-
         #region Login
         public partial class Login
         {
@@ -354,7 +313,7 @@ namespace Telekom
         }
         #endregion
 
-        #region PatchProfile
+        #region Patch Profile
         public partial class PatchProfileResult
         {
             [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
@@ -367,6 +326,203 @@ namespace Telekom
         {
             [JsonProperty("label", NullValueHandling = NullValueHandling.Ignore)]
             public string Label { get; set; }
+        }
+        #endregion
+
+        #region Invoices and bills
+        public partial class UnpaidBills
+        {
+            [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
+            public long? Count { get; set; }
+
+            [JsonProperty("cost", NullValueHandling = NullValueHandling.Ignore)]
+            public Cost Cost { get; set; }
+
+            [JsonProperty("bills", NullValueHandling = NullValueHandling.Ignore)]
+            public Bill[] Bills { get; set; }
+        }
+
+        public partial class Bill
+        {
+            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+            public string Id { get; set; }
+
+            [JsonProperty("paymentDueDate", NullValueHandling = NullValueHandling.Ignore)]
+            public DateTimeOffset? PaymentDueDate { get; set; }
+
+            [JsonProperty("billingAccount", NullValueHandling = NullValueHandling.Ignore)]
+            public BillingAccount BillingAccount { get; set; }
+        }
+
+        public partial class Cost
+        {
+            [JsonProperty("currencyCode", NullValueHandling = NullValueHandling.Ignore)]
+            public string CurrencyCode { get; set; }
+
+            [JsonProperty("amount", NullValueHandling = NullValueHandling.Ignore)]
+            public double? Amount { get; set; }
+        }
+
+        public partial class BillingMonths
+        {
+            [JsonProperty("month", NullValueHandling = NullValueHandling.Ignore)]
+            public long? Month { get; set; }
+
+            [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
+            public long? Year { get; set; }
+        }
+
+        public partial class CustomerBills
+        {
+            [JsonProperty("appliedPayment", NullValueHandling = NullValueHandling.Ignore)]
+            public object[] AppliedPayment { get; set; }
+
+            [JsonProperty("billDate", NullValueHandling = NullValueHandling.Ignore)]
+            public DateTimeOffset? BillDate { get; set; }
+
+            [JsonProperty("billDocument", NullValueHandling = NullValueHandling.Ignore)]
+            public object[] BillDocument { get; set; }
+
+            [JsonProperty("billingAccount", NullValueHandling = NullValueHandling.Ignore)]
+            public BillingAccount BillingAccount { get; set; }
+
+            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+            public string Id { get; set; }
+
+            [JsonProperty("isBillUnpayable", NullValueHandling = NullValueHandling.Ignore)]
+            public bool? IsBillUnpayable { get; set; }
+
+            [JsonProperty("relatedParty", NullValueHandling = NullValueHandling.Ignore)]
+            public object[] RelatedParty { get; set; }
+
+            [JsonProperty("taxItem", NullValueHandling = NullValueHandling.Ignore)]
+            public object[] TaxItem { get; set; }
+
+            [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+            public string Type { get; set; }
+        }
+
+        public partial class BillingAccount
+        {
+            [JsonProperty("businessId", NullValueHandling = NullValueHandling.Ignore)]
+            public string BusinessId { get; set; }
+
+            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+            public string Id { get; set; }
+
+            [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+            public string Name { get; set; }
+        }
+
+        public partial class BillView
+        {
+            [JsonProperty("amountDue", NullValueHandling = NullValueHandling.Ignore)]
+            public AmountDue AmountDue { get; set; }
+
+            [JsonProperty("appliedPayment", NullValueHandling = NullValueHandling.Ignore)]
+            public object[] AppliedPayment { get; set; }
+
+            [JsonProperty("billDate", NullValueHandling = NullValueHandling.Ignore)]
+            public DateTimeOffset? BillDate { get; set; }
+
+            [JsonProperty("billDocument", NullValueHandling = NullValueHandling.Ignore)]
+            public BillDocument[] BillDocument { get; set; }
+
+            [JsonProperty("billNo", NullValueHandling = NullValueHandling.Ignore)]
+            public string BillNo { get; set; }
+
+            [JsonProperty("billingAccount", NullValueHandling = NullValueHandling.Ignore)]
+            public BillingAccount BillingAccount { get; set; }
+
+            [JsonProperty("billingRates", NullValueHandling = NullValueHandling.Ignore)]
+            public BillingRate[] BillingRates { get; set; }
+
+            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+            public string Id { get; set; }
+
+            [JsonProperty("invoiceAmount", NullValueHandling = NullValueHandling.Ignore)]
+            public AmountDue InvoiceAmount { get; set; }
+
+            [JsonProperty("isBillUnpayable", NullValueHandling = NullValueHandling.Ignore)]
+            public bool? IsBillUnpayable { get; set; }
+
+            [JsonProperty("isItemizedBill", NullValueHandling = NullValueHandling.Ignore)]
+            public bool? IsItemizedBill { get; set; }
+
+            [JsonProperty("paymentDueDate", NullValueHandling = NullValueHandling.Ignore)]
+            public DateTimeOffset? PaymentDueDate { get; set; }
+
+            [JsonProperty("relatedParty", NullValueHandling = NullValueHandling.Ignore)]
+            public RelatedParty[] RelatedParty { get; set; }
+
+            [JsonProperty("remainingAmount", NullValueHandling = NullValueHandling.Ignore)]
+            public AmountDue RemainingAmount { get; set; }
+
+            [JsonProperty("state", NullValueHandling = NullValueHandling.Ignore)]
+            public string State { get; set; }
+
+            [JsonProperty("taxExcludedAmount", NullValueHandling = NullValueHandling.Ignore)]
+            public AmountDue TaxExcludedAmount { get; set; }
+
+            [JsonProperty("taxIncludedAmount", NullValueHandling = NullValueHandling.Ignore)]
+            public AmountDue TaxIncludedAmount { get; set; }
+
+            [JsonProperty("taxItem", NullValueHandling = NullValueHandling.Ignore)]
+            public TaxItem[] TaxItem { get; set; }
+
+            [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+            public string Type { get; set; }
+        }
+
+        public partial class AmountDue
+        {
+            [JsonProperty("amount", NullValueHandling = NullValueHandling.Ignore)]
+            public double? Amount { get; set; }
+
+            [JsonProperty("units", NullValueHandling = NullValueHandling.Ignore)]
+            public string Units { get; set; }
+        }
+
+        public partial class BillDocument
+        {
+            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+            public string Id { get; set; }
+
+            [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+            public string Name { get; set; }
+
+            [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+            public string Url { get; set; }
+        }
+
+        public partial class BillingRate
+        {
+            [JsonProperty("characteristic", NullValueHandling = NullValueHandling.Ignore)]
+            public object[] Characteristic { get; set; }
+
+            [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+            public string Id { get; set; }
+
+            [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+            public string Name { get; set; }
+
+            [JsonProperty("taxIncludedAmount", NullValueHandling = NullValueHandling.Ignore)]
+            public AmountDue TaxIncludedAmount { get; set; }
+
+            [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+            public string Type { get; set; }
+        }
+
+        public partial class TaxItem
+        {
+            [JsonProperty("taxAmount", NullValueHandling = NullValueHandling.Ignore)]
+            public AmountDue TaxAmount { get; set; }
+
+            [JsonProperty("taxCategory", NullValueHandling = NullValueHandling.Ignore)]
+            public string TaxCategory { get; set; }
+
+            [JsonProperty("taxRate", NullValueHandling = NullValueHandling.Ignore)]
+            public long? TaxRate { get; set; }
         }
         #endregion
     }
