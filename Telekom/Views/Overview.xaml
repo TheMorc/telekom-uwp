@@ -8,13 +8,22 @@
 
 
     <Grid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="" Name="simName"/>
-            <TextBlock Text="" Name="simData"/>
+        <RelativePanel Margin="25,0,25,0" Grid.RowSpan="2">
+            <StackPanel Name="invoice" RelativePanel.AlignHorizontalCenterWithPanel="True" Background="{ThemeResource BarBGColor}" Margin="0,5,0,0" Visibility="Collapsed">
+                <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="" Name="ubill_count" FontWeight="Normal" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,35,15" HorizontalAlignment="Left"/>
+                    <TextBlock Text="" Name="ubill_amount" FontWeight="Normal" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel RelativePanel.Below="invoice" RelativePanel.AlignHorizontalCenterWithPanel="True" Background="{ThemeResource BarBGColor}" Margin="0,5,0,0">
+                <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="" FontWeight="Normal" Name="simName" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,35,15" HorizontalAlignment="Left"/>
+                    <TextBlock Text="" FontWeight="Normal" Name="simData" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15"/>
+                </StackPanel>
+            </StackPanel>
 
-            <TextBlock Text="" Name="ubill_count"/>
-            <TextBlock Text="" Name="ubill_amount"/>
-        </StackPanel>
+        </RelativePanel>
+
     </Grid>
 
     <Page.Transitions>

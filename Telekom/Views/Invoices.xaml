@@ -9,7 +9,7 @@
 
     <Grid>
         <ScrollViewer Name="ScrollViewer">
-            <ListView x:Name="InvoiceList" ItemClick="InvoiceList_ItemClick" IsItemClickEnabled="True" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,20,0,0">
+            <ListView x:Name="InvoiceList" ItemClick="InvoiceList_ItemClick" IsItemClickEnabled="True" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

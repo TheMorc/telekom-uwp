@@ -1,4 +1,5 @@
-﻿using Windows.UI.Core;
+﻿using System.Collections.Generic;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 
 namespace Telekom.Views
@@ -23,6 +24,8 @@ namespace Telekom.Views
             JSON_.BillView bill = await System.Threading.Tasks.Task.Run(() => App.TLKM.BillView(App.TLKM.customerBills[0].Id));
             if (bill != null)
             {
+                List<moreInformationItems> mII = new List<moreInformationItems>();
+                moreInformationItems tempMII = new moreInformationItems();
                 bill_amount.Text = bill.InvoiceAmount.Amount + " " + bill.InvoiceAmount.Units;
                 bill_id.Text = bill.BillNo;
                 foreach (JSON_.RelatedParty party in bill.RelatedParty)
@@ -33,6 +36,55 @@ namespace Telekom.Views
                     }
                 }
                 bill_type.Text = bill.Type;
+
+                tempMII = new moreInformationItems
+                {
+                    Name = "Číslo adresáta",
+                    Value = bill.BillingAccount.BusinessId
+                };
+                mII.Add(tempMII);
+
+                tempMII = new moreInformationItems
+                {
+                    Name = "Variable symbol",
+                    Value = bill.BillingAccount.Name
+                };
+                mII.Add(tempMII);
+
+                foreach (JSON_.BillingRate bRate in bill.BillingRates)
+                {
+                    tempMII = new moreInformationItems
+                    {
+                        Name = bRate.Name,
+                        Value = bRate.TaxIncludedAmount.Amount + bRate.TaxIncludedAmount.Units
+                    };
+
+                    mII.Add(tempMII);
+                }
+
+                tempMII = new moreInformationItems
+                {
+                    Name = "Suma spolu s DPH",
+                    Value = bill.InvoiceAmount.Amount + bill.InvoiceAmount.Units
+                };
+                mII.Add(tempMII);
+
+                tempMII = new moreInformationItems
+                {
+                    Name = $"{bill.TaxItem[0].TaxCategory} {bill.TaxItem[0].TaxRate}%",
+                    Value = bill.TaxItem[0].TaxAmount.Amount + bill.TaxItem[0].TaxAmount.Units
+                };
+                mII.Add(tempMII);
+
+                tempMII = new moreInformationItems
+                {
+                    Name = "Suma faktúry",
+                    Value = bill.TaxIncludedAmount.Amount + bill.TaxIncludedAmount.Units
+                };
+                mII.Add(tempMII);
+
+
+                moreInformation.ItemsSource = mII;
             }
             else
             {
@@ -45,6 +97,7 @@ namespace Telekom.Views
             if (Frame.CanGoBack)
             {
                 Frame.GoBack();
+                App.commandBarText = App.resourceLoader.GetString("Invoices/Text").ToUpper();
                 e.Handled = true;
             }
 
@@ -59,5 +112,11 @@ namespace Telekom.Views
         {
             //download 
         }
+    }
+
+    public class moreInformationItems
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
     }
 }

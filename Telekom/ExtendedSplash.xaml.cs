@@ -44,6 +44,12 @@ namespace Telekom
         #region statusbar
         private async void StatusText(string text)
         {
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+
+            titleBar.ForegroundColor = Windows.UI.Color.FromArgb(255, 255, 255, 255);
+            titleBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 226, 0, 116);
+            titleBar.ButtonBackgroundColor = Windows.UI.Color.FromArgb(255, 226, 0, 116);
+
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 loadingLabel.Visibility = Visibility.Collapsed;
@@ -68,12 +74,27 @@ namespace Telekom
 
         private async void HideStatusText()
         {
+            UISettings DefaultTheme = new Windows.UI.ViewManagement.UISettings();
+            string uiTheme = DefaultTheme.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background).ToString();
+
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            if (uiTheme == "#FF000000") //dark
+            {
+                titleBar.ButtonBackgroundColor = Windows.UI.Color.FromArgb(255, 31, 31, 31);
+                titleBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 31, 31, 31);
+                titleBar.ForegroundColor = Windows.UI.Color.FromArgb(255, 255, 255, 255);
+            }
+            else if (uiTheme == "#FFFFFFFF") //light
+            {
+                titleBar.ButtonBackgroundColor = Windows.UI.Color.FromArgb(255, 230, 230, 230);
+                titleBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 31, 31, 31);
+                titleBar.ForegroundColor = Windows.UI.Color.FromArgb(255, 0, 0, 0);
+            }
+
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
 
-                UISettings DefaultTheme = new Windows.UI.ViewManagement.UISettings();
-                string uiTheme = DefaultTheme.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background).ToString();
                 if (uiTheme == "#FF000000") //dark
                 {
                     statusBar.BackgroundColor = Windows.UI.Color.FromArgb(255, 31, 31, 31);

@@ -23,7 +23,7 @@ namespace Telekom.Views
             if (prodreport_success)
             {
                 simName.Text = App.TLKM.prodRep.Label + " - " + App.TLKM.prodRep.Description;
-                simData.Text = App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "/" + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + "GB";
+                simData.Text = App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "/" + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Unit;
                 App.TLKM.Update_LiveTile();
             }
             else
@@ -35,6 +35,7 @@ namespace Telekom.Views
             {
                 if (App.TLKM.unpaidBills.Count.Value != 0)
                 {
+                    invoice.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     ubill_count.Text = App.TLKM.unpaidBills.Count.Value + " " + App.resourceLoader.GetString("Invoice");
                     ubill_amount.Text = App.TLKM.unpaidBills.Cost.Amount + " " + App.TLKM.unpaidBills.Cost.CurrencyCode;
                 }

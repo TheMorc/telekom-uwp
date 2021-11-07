@@ -13,21 +13,36 @@
                 <StackPanel Name="panelIconText" RelativePanel.AlignHorizontalCenterWithPanel="true">
                     <FontIcon Grid.Column="0" FontSize="65" FontFamily="Segoe MDL2 Assets" Glyph="&#59198;" Margin="0,15,0,15" Name="bill_icon" />
                 </StackPanel>
-                <StackPanel RelativePanel.Below="panelIconText" RelativePanel.AlignHorizontalCenterWithPanel="True" Background="{ThemeResource BarBGColor}" Margin="0,5,0,0">
-                    <TextBlock Text="pravidelna faktura" FontWeight="Normal" FontSize="18" Name="bill_type" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,10,0" HorizontalAlignment="Center"/>
-                    <TextBlock Text="20 EUR" FontWeight="Bold" FontSize="25" Name="bill_amount" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,0,10,0" HorizontalAlignment="Center"/>
+                <StackPanel Name="stackPanel" RelativePanel.Below="panelIconText" RelativePanel.AlignHorizontalCenterWithPanel="True" Background="{ThemeResource BarBGColor}" Margin="0,5,0,0">
+                    <TextBlock Text="" FontWeight="Normal" FontSize="18" Name="bill_type" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,10,0" HorizontalAlignment="Center"/>
+                    <TextBlock Text="" FontWeight="Bold" FontSize="25" Name="bill_amount" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,0,10,0" HorizontalAlignment="Center"/>
                     <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="číslo faktúry" FontWeight="Normal" x:Uid="bill_id_text" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,35,15" HorizontalAlignment="Left"/>
-                        <TextBlock Text="123456789" FontWeight="Normal" Name="bill_id" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15"/>
+                        <TextBlock Text="" FontWeight="Normal" x:Uid="bill_id_text" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,35,15" HorizontalAlignment="Left"/>
+                        <TextBlock Text="" FontWeight="Normal" Name="bill_id" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15"/>
                     </StackPanel>
                     <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="Faktúra bola zaslaná" FontWeight="Normal" x:Uid="bill_receiver_text" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,35,15" HorizontalAlignment="Left"/>
-                        <TextBlock Text="MENO PRIEZVISKO" FontWeight="Normal" Name="bill_receiver" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15"/>
+                        <TextBlock Text="" FontWeight="Normal" x:Uid="bill_receiver_text" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,35,15" HorizontalAlignment="Left"/>
+                        <TextBlock Text="" FontWeight="Normal" Name="bill_receiver" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15"/>
                     </StackPanel>
                     <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="Stiahnuť faktúru" Margin="50,0,50,10" FontFamily="Segoe UI" x:Uid="bill_download_button.Content" Click="Button_Click"/>
+                        <Button Content="" Margin="50,0,50,10" FontFamily="Segoe UI" x:Uid="bill_download_button" Click="Button_Click"/>
                     </StackPanel>
                 </StackPanel>
+                <ListView Name="moreInformation" RelativePanel.Below="stackPanel" IsItemClickEnabled="False" SelectionMode="None" 
+                         RelativePanel.AlignHorizontalCenterWithPanel="True" Background="{ThemeResource BarBGColor}" Margin="5,15,5,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock FontSize="16" FontWeight="Bold" Margin="5,3,5,0">
+                                    <Run Text="{Binding Name}"></Run>
+                                </TextBlock>
+                                <TextBlock FontSize="15" Margin="5,0,5,3">
+                                    <Run Text="{Binding Value}"></Run>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </RelativePanel>
         </ScrollViewer>
     </Grid>
