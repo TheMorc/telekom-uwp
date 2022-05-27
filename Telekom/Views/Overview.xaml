@@ -17,10 +17,10 @@
             </StackPanel>
             <StackPanel RelativePanel.Below="invoice" RelativePanel.AlignHorizontalCenterWithPanel="True" Background="{ThemeResource BarBGColor}" Margin="0,5,0,0">
                 <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="" FontWeight="Normal" Name="simName" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,35,15" HorizontalAlignment="Left"/>
+                    <TextBlock Text="" FontWeight="Normal" Name="simName" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="10,10,25,15" HorizontalAlignment="Left"/>
                     <StackPanel Background="{ThemeResource BarBGColor}" Orientation="Vertical" HorizontalAlignment="Center">
-                        <TextBlock Text="" FontWeight="Normal" Name="simBalance" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15"/>
-                        <TextBlock Text="" FontWeight="Normal" Name="simData" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="35,10,10,15"/>
+                        <TextBlock Text="" FontWeight="Normal" Name="simBalance" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="25,10,10,8"/>
+                        <TextBlock Text="" FontWeight="Normal" Name="simData" TextWrapping="WrapWholeWords" FontFamily="Segoe UI" Margin="25,0,10,15"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

@@ -14,10 +14,11 @@ namespace Telekom
         {
             InitializeComponent();
 
-            Load_ProdRep();
-
             App.commandBarText = App.resourceLoader.GetString("Overview/Text").ToUpper();
             commandBarHeader.Text = App.commandBarText;
+            hamburgerMenuControl.ItemsSource = MenuItem.GetPrepaidMainItems();
+            hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems();
+            Load_ProdRep();
         }
 
         private async void Load_ProdRep()
@@ -25,17 +26,10 @@ namespace Telekom
             bool prodreport_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.ProductReport());
             if (prodreport_success)
             {
-                if (App.TLKM.prodRep.Category == "mobilePrepaid")
-                {
-                    hamburgerMenuControl.ItemsSource = MenuItem.GetPrepaidMainItems();
-                }
-                else
+                if (App.TLKM.prodRep.Category != "mobilePrepaid")
                 {
                     hamburgerMenuControl.ItemsSource = MenuItem.GetMainItems();
                 }
-
-                hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems();
-
 
                 frame.Navigate(typeof(Overview));
                 commandBarRefresh.Visibility = App.commandBarRefreshVisible;

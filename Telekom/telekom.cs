@@ -51,7 +51,7 @@ namespace Telekom
         {
             string from = prodRep.Label;
             string subject2 = "";
-            string subject1 = prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Unit + "/" + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Unit; //assuming that data is first on the list..
+            string subject1 = prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Unit + "/" + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Unit; //assuming that data is first on the list..
             if (App.TLKM.prodRep.Category == "mobilePrepaid")
             {
                 subject2 = App.TLKM.prodRep.CreditBalance.Total.Amount + App.TLKM.prodRep.CreditBalance.Total.CurrencyCode;
