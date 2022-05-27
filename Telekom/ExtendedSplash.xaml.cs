@@ -182,6 +182,15 @@ namespace Telekom
                             return;
                         }
                     }
+                    else if (App.TLKM.lastCode == "deadaccess")
+                    {
+                        Debug.WriteLine("[tlkm_extendedsplash] dead access token - setup reset");
+
+                        HideStatusText();
+                        rootFrame.Navigate(typeof(Setup_pin));
+                        Window.Current.Content = rootFrame;
+                        return;
+                    }
                     else
                     {
                         OpenErrorPage();

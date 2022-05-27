@@ -14,14 +14,39 @@ namespace Telekom
         {
             InitializeComponent();
 
-            hamburgerMenuControl.ItemsSource = MenuItem.GetMainItems();
-            hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems();
+            Load_ProdRep();
 
             App.commandBarText = App.resourceLoader.GetString("Overview/Text").ToUpper();
             commandBarHeader.Text = App.commandBarText;
-            frame.Navigate(typeof(Overview));
-            commandBarRefresh.Visibility = App.commandBarRefreshVisible;
-            hamburgerMenuControl.SelectedIndex = 0;
+        }
+
+        private async void Load_ProdRep()
+        {
+            bool prodreport_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.ProductReport());
+            if (prodreport_success)
+            {
+                if (App.TLKM.prodRep.Category == "mobilePrepaid")
+                {
+                    hamburgerMenuControl.ItemsSource = MenuItem.GetPrepaidMainItems();
+                }
+                else
+                {
+                    hamburgerMenuControl.ItemsSource = MenuItem.GetMainItems();
+                }
+
+                hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems();
+
+
+                frame.Navigate(typeof(Overview));
+                commandBarRefresh.Visibility = App.commandBarRefreshVisible;
+                hamburgerMenuControl.SelectedIndex = 0;
+            }
+            else
+            {
+
+                await App.TLKM.ShowMessage();
+
+            }
         }
 
         private void OnMenuItemClick(object sender, ItemClickEventArgs e)
@@ -53,6 +78,7 @@ namespace Telekom
                 commandBarHeader.Text = App.commandBarText;
             }
             lastcBText = App.commandBarText;
+
         }
     }
 
@@ -72,6 +98,18 @@ namespace Telekom
                 new MenuItem() { Icon = (Symbol)59327, Name = App.resourceLoader.GetString("Eshop/Text"), PageType = typeof(Views.WebView) },
                 new MenuItem() { Icon = Symbol.Shop, Name = App.resourceLoader.GetString("Gifts/Text"), PageType = typeof(Views.WebView) },
                 new MenuItem() { Icon = (Symbol)61766, Name = App.resourceLoader.GetString("Magenta1/Text"), PageType = typeof(Views.WebView) }
+            };
+            return items;
+        }
+
+        public static List<MenuItem> GetPrepaidMainItems()
+        {
+            List<MenuItem> items = new List<MenuItem>
+            {
+                new MenuItem() { Icon = Symbol.Home, Name = App.resourceLoader.GetString("Overview/Text"), PageType = typeof(Overview) },
+                new MenuItem() { Icon = Symbol.Contact2, Name = App.resourceLoader.GetString("Profile/Text"), PageType = typeof(Profile) },
+                new MenuItem() { Icon = (Symbol)59327, Name = App.resourceLoader.GetString("Eshop/Text"), PageType = typeof(Views.WebView) },
+                new MenuItem() { Icon = Symbol.Shop, Name = App.resourceLoader.GetString("Gifts/Text"), PageType = typeof(Views.WebView) },
             };
             return items;
         }

@@ -19,17 +19,17 @@ namespace Telekom.Views
 
         private async void Load_Dashboard()
         {
-            bool prodreport_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.ProductReport());
-            if (prodreport_success)
+
+            simName.Text = App.TLKM.prodRep.Label + " - " + App.TLKM.prodRep.Description;
+            simData.Text = App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Unit + "/" + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Unit;
+
+            if (App.TLKM.prodRep.Category == "mobilePrepaid")
             {
-                simName.Text = App.TLKM.prodRep.Label + " - " + App.TLKM.prodRep.Description;
-                simData.Text = App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "/" + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Max.Unit;
-                App.TLKM.Update_LiveTile();
+                simBalance.Text = App.TLKM.prodRep.CreditBalance.Total.Amount + App.TLKM.prodRep.CreditBalance.Total.CurrencyCode;
             }
-            else
-            {
-                await App.TLKM.ShowMessage();
-            }
+
+            App.TLKM.Update_LiveTile();
+
             bool unpaidbills_success = await System.Threading.Tasks.Task.Run(() => App.TLKM.Unpaid_Bills());
             if (unpaidbills_success)
             {

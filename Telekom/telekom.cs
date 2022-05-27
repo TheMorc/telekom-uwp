@@ -50,8 +50,13 @@ namespace Telekom
         public bool Update_LiveTile()
         {
             string from = prodRep.Label;
-            string subject = prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "/" + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + "GB"; //assuming that data is first on the list..
-
+            string subject2 = "";
+            string subject1 = prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Unit + "/" + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + App.TLKM.prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Unit; //assuming that data is first on the list..
+            if (App.TLKM.prodRep.Category == "mobilePrepaid")
+            {
+                subject2 = App.TLKM.prodRep.CreditBalance.Total.Amount + App.TLKM.prodRep.CreditBalance.Total.CurrencyCode;
+            }
+            string subject = subject1 + "\n" + subject2;
 
             TileContent content = new TileContent()
             {
@@ -132,8 +137,7 @@ namespace Telekom
                 }
 
                 prodRep = JsonConvert.DeserializeObject<JSON_.ProductReport>(response.Content.ReadAsStringAsync().Result); //populating the public prodRep variable with valuable items!
-                Debug.WriteLine("[tlkm_main - productreport] " + prodRep.Label + " - max: " + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + "GB remaining: " + prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value + "GB");
-
+                Debug.WriteLine("[tlkm_main - productreport] " + prodRep.Label + " - max: " + prodRep.ConsumptionGroups[0].Consumptions[0].Max.Value + " remaining: " + prodRep.ConsumptionGroups[0].Consumptions[0].Remaining.Value);
                 return true;
             }
         }
@@ -457,6 +461,12 @@ namespace Telekom
                 }
 
                 string semiParsedJson = response.Content.ReadAsStringAsync().Result;
+                if (semiParsedJson.Length == 3)
+                {
+                    Debug.WriteLine("[tlkm_main - login] dead access token");
+                    lastCode = "deadaccess";
+                    return false;
+                }
                 if (semiParsedJson.StartsWith("["))
                 {
                     semiParsedJson = response.Content.ReadAsStringAsync().Result.Remove(0, 2).Remove(response.Content.ReadAsStringAsync().Result.Length - 3, 1);

@@ -46,12 +46,21 @@ namespace Telekom
 
             [JsonProperty("billingAccountId", NullValueHandling = NullValueHandling.Ignore)]
             public string BillingAccountId { get; set; }
+
+            [JsonProperty("creditBalance", NullValueHandling = NullValueHandling.Ignore)]
+            public CreditBalance CreditBalance { get; set; }
         }
 
         public partial class ActiveAddonsSummary
         {
             [JsonProperty("count", NullValueHandling = NullValueHandling.Ignore)]
             public long? Count { get; set; }
+        }
+
+        public partial class CreditBalance
+        {
+            [JsonProperty("total", NullValueHandling = NullValueHandling.Ignore)]
+            public Total Total { get; set; }
         }
 
         public partial class ActualSpending
@@ -78,7 +87,7 @@ namespace Telekom
             public string CurrencyCode { get; set; }
 
             [JsonProperty("amount", NullValueHandling = NullValueHandling.Ignore)]
-            public long? Amount { get; set; }
+            public double? Amount { get; set; }
         }
 
         public partial class ConsumptionGroup
